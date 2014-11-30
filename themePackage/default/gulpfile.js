@@ -5,29 +5,38 @@ var gulp   = require('gulp'),
 
 // SCSS
 gulp.task('scss', function() {
-    gulp.src('scss/styles.scss')
-        .pipe(sass())
-        .pipe(gulp.dest('./css'));
+    return  gulp.src('scss/styles.scss')
+            .pipe(sass())
+            .pipe(gulp.dest('./css'));
 });
 
 // Bootstrap JavaScript
 gulp.task('js', function() {
-    return gulp.src([
-            "bootstrap/assets/javascript/bootstrap/modal.js"
-        ])
-        .pipe(concat('bootstrap.min.js'))
-        .pipe(gulp.dest('./js'));
+    return  gulp.src([
+                "bootstrap/assets/javascripts/bootstrap/modal.js"
+            ])
+            .pipe(concat('bootstrap.min.js'))
+            .pipe(gulp.dest('./js'));
+});
+
+// Moving Bootstrap Fonts
+gulp.task('fonts', function () {
+    return  gulp.src(
+                'bootstrap/assets/fonts/bootstrap/*'
+            )
+            .pipe(gulp.dest('fonts/bootstrap'));
 });
 
 // Clean
 gulp.task('clean', function() {
-    gulp.src([
-        './css',
-        './js'
-    ],{read: false})
-    .pipe(rimraf({
-        force: true
-    }));
+    return  gulp.src([
+                './css',
+                './js',
+                './fonts/bootstrap'
+            ],{read: false})
+            .pipe(rimraf({
+                force: true
+            }));
 });
 
-gulp.task('default', ['clean', 'scss', 'js']);
+gulp.task('default', ['clean', 'scss', 'js', 'fonts']);

@@ -16,12 +16,20 @@
 @import "bootstrap/assets/stylesheets/bootstrap/forms";
 @import "bootstrap/assets/stylesheets/bootstrap/buttons";
 
-// Components
-@import "#{$bootstrapPath}bootstrap/dropdowns";
-@import "#{$bootstrapPath}bootstrap/button-groups";
-@import "#{$bootstrapPath}bootstrap/close";
-@import "#{$bootstrapPath}bootstrap/modals";
+//-------------------
+// User Components
+// Hier kannst du weitere Komponenten einfügen je nachdem welche benötig werden.
+@import "bootstrap/assets/stylesheets/bootstrap/dropdowns";
+@import "bootstrap/assets/stylesheets/bootstrap/button-groups";
+@import "bootstrap/assets/stylesheets/bootstrap/close";
+@import "bootstrap/assets/stylesheets/bootstrap/modals";
+//-------------------
 
 // Utility classes
-@import "#{$bootstrapPath}bootstrap/utilities";
-@import "#{$bootstrapPath}bootstrap/responsive-utilities";
+@import "bootstrap/assets/stylesheets/bootstrap/utilities";
+@import "bootstrap/assets/stylesheets/bootstrap/responsive-utilities";
+
+//-------------------
+// Deine SCSS Dateien sollten hier eingefügt werden:
+
+//-------------------

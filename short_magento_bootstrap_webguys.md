@@ -1,10 +1,9 @@
-
 How to: Magento Frontend mit Bootstrap SCSS
 ======================
 
 Einleitung
 ----------------------
-Mit jedem Boilerplate Theme das auf einem Framework basiert kommen auch oft eine große Anzahl an Überschreibungen auf uns zu, erst recht wenn es um ein so komplexes System wie Magento geht. Ein wenig besser wird es, wenn wir statt dem normalen Bootstrap CSS Less oder SASS benutzen aber um eine wirklich saubere Basis zu bekommen empfielt es sich im ersten Schritt auf weitestgehend alles vorhandene zu verzichen und nur das Magento HTML als Basis zu sehen. Ja, es ist viel Arbeit aber es zahlt sich aus, zumindest Gedanklich dieses Experiment zu machen, denn durch die einige wirklich hilfreiche Mixins ist es einfacher als man denkt.
+Mit jedem Boilerplate Theme das auf einem Framework basiert kommen auch oft eine große Anzahl an Überschreibungen auf uns zu, erst recht wenn es um ein so komplexes System wie Magento geht. Ein wenig besser wird es, wenn wir statt dem normalen Bootstrap CSS Less oder SASS benutzen aber um eine wirklich saubere Basis zu bekommen empfiehlt es sich im ersten Schritt auf weitestgehend alles vorhandene zu verzichten und nur das Magento HTML als Basis zu sehen. Ja, es ist viel Arbeit aber es zahlt sich aus, zumindest Gedanklich dieses Experiment zu machen, denn durch die einige wirklich hilfreiche Mixins ist es einfacher als man denkt.
 
 Da ich keineswegs von Boilerplates abraten will, möchte ich an dieser Stelle eine Boilerplate mit der ich sehr gute Erfahrung sammeln konnte hervorheben, die Webcomm [HTML5 Magento Bootstrap Boilerplate](https://github.com/webcomm/magento-boilerplate). Neben einer sehr guten integration finden wir hier sehr gute Class-Mappings zwischen Magento und Bootstrap. Hier liegt aber auch wieder der Nachteil des Ganzen, denn neben den Standard Bootstrap Styles kommen hier weitere Styles hinzu, welche möglicherweise nicht gewüncht sind und daher überschrieben werden müssen.
 
@@ -119,12 +118,12 @@ gulp.task('clean', function() {
 
 gulp.task('default', ['clean', 'scss', 'js']);
 ```
-Da wir in Bootstrap mehrere Javascript komponenten nutzen wollen können wir diese über den "js" Task zusammenschreiben und im "js" Ordner ablegen, welche Module benutzt werden sollen muss im "src" des Tasks angegeben werden wie im Beispiel das "Modal". Schön hieran ist, dass wir kontrollieren können wie groß unsere JavaScript Datei am Ende wird und wir Laden nur wirklich benötigte Module.
+Da wir in Bootstrap mehrere Javascript Komponenten nutzen wollen können wir diese über den "js" Task zusammenschreiben und im "js" Ordner ablegen, welche Module benutzt werden sollen muss im "src" des Tasks angegeben werden wie im Beispiel das "Modal". Schön hieran ist, dass wir kontrollieren können wie groß unsere JavaScript Datei am Ende wird und wir Laden nur wirklich benötigte Module.
 
 Ansonsten haben wir einen Task zum entfernen der dynamischen ordner "css" und "js" und einen Task für das Zusammenfassen der SCSS-Dateien. Für SCSS müssen wir in der Gulp-Datei keine Module oder Dateien aus dem Bootstrap Ordner angeben, dies erledigen wir später in der Styles.scss.
 
 ###### Die Package Datei mit allen benötigten Gulp-Modulen:
-Die Package Datei benötigen wir um alle Gulp-Module zu Installieren, d.h. egal wo wir mit diesem Code arbeiten durch das ausführen von `npm install` werden alle benötigten Module installiert. Die Vorraussetzung hierfür ist aber das Node inkl. dem NPM installiert ist.
+Die Package Datei benötigen wir um alle Gulp-Module zu Installieren, d.h. egal wo wir mit diesem Code arbeiten durch das ausführen von `npm install` werden alle benötigten Module installiert. Die Voraussetzung hierfür ist aber das Node inkl. dem NPM installiert ist.
 
 ```json
 {
@@ -140,11 +139,20 @@ Die Package Datei benötigen wir um alle Gulp-Module zu Installieren, d.h. egal 
 ```
 
 ### Aufsetzen der Style SCSS
-Nun kommen wir zur "Style" Datei, sozusagen dem Herzstück unseres Themes. Um herauszufinden welche Bootstrap Standard Dateien wir benötigen können wir im assets Ordner nach der Datei "_bootstrap.scss" suchen. Wir könnten diese Datei auch direkt in unserer Styles.scss mit `@import` einbinden dabei würden wir aber wieder sämliche komponenten laden, was in den meisten Fällen aber unnötig ist. In der Bootstrap Datei befinden sich glücklicher Weise Kommentare welche uns helfen zu indentifizieren was wir benötigen und was nicht, alles was mit "Components" beschrieben ist, ist Optional, alles andere wird drigend benötigt.
+Nun kommen wir zur "Style" Datei, sozusagen dem Herzstück unseres Themes. Um herauszufinden welche Bootstrap Standard Dateien wir benötigen können wir im assets Ordner nach der Datei "_bootstrap.scss" suchen. Wir könnten diese Datei auch direkt in unserer Styles.scss mit `@import` einbinden dabei würden wir aber wieder sämtliche Komponenten laden, was in den meisten Fällen unnötig ist. 
+In der Bootstrap Datei befinden sich glücklicher Weise Kommentare welche uns helfen zu Identifizieren was wir benötigen und was nicht, alles was mit "Components" beschrieben ist, ist Optional, alles 
+andere wird dringend benötigt, easy.
 
+```css
 
+```
 
-Mappings, Magento CSS, Tipps und Tricks
+### Das erste Mal
+Cool, wir sind soweit, nun können wir unseren Code das erste Mal über Gulp in den CSS und JS Ordner schreiben lassen und uns dann endlich den wichtigen Themen widmen.
+
+Also einfach mutig sein, `gulp` in die Konsole eingeben und Return/Enter drücken. 
+
+Mappings, Magento SCSS, Tipps und Tricks
 ----------------------
 
 - Breakpoints von Bootstrap einfacher nutzen?
