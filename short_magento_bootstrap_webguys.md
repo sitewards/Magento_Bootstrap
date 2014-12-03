@@ -171,8 +171,45 @@ Also für jeden Block für den es sich lohnt, mache ich dabei einen eigenen Ordn
 ### Das Grid: 
 Oh ha, jetzt geht's ans Eingemachte, falsch gedacht. Es ist einfacher als man denkt auf die bestehenden Magento Klassen das Bootstrap Grid zu mappen. Die Macher von Bootstrap waren nämlich so nett uns hierfür einige Mixins zu liefern. Ein super Vorteil davon ist, das der Shop gleich mal einen gewaltigen Schritt in Sachen Responsive nach vorn macht. 
 
+Die Grid mixins könnt ihr in den Bootstrap assets in dieserm Ordner finden: `bootstrap\assets\stylesheets\bootstrap\mixins\_grid.scss`.
+Also fangen wir an unser Magento Frontend wieder etwas in form zu bringen. Als erstes kümmern wir uns um die "Pages" also die generelle Seitenstruktur, dazu erweitern wir das SCSS wie folgt:
+```
+skin/frontend/[yourPackage]/default
+    |- scss
+        |- styles.scss
+        |- Pages
+            |- _pages-grid.scss
+```
 
+In unserer _pages-grid.scss sammeln wir mal die wichtigsten gegebenen Struktur-Klassen und erweitern diese mit den zur Verfügung stehenden Mixins. Ich habe das im folgenden schonmal vorbereitet:
+```scss
+.wrapper {}
+.page {}
 
+//==== col 1 layout ====
+.col1-layout {
+    .col-main {}
+}
+
+//==== col 2 layout ====
+.col2-left-layout,
+.col2-right-layout {
+    .col-main {}
+}
+.col2-left-layout {
+    .col-left {}
+}
+.col2-right-layout {
+    .col-right {}
+}
+
+//==== col 3 layout ====
+.col3-layout {
+    .col-main {}
+    .sidebar {}
+}
+```
+Und zack haben wir wieder eine "ordentliche" Seitenstruktur, Easy, oder?
 
 
 
