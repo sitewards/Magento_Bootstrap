@@ -154,10 +154,31 @@ Also einfach mutig sein, `gulp` in die Konsole eingeben und Return/Enter drücke
 
 Mappings, Magento SCSS, Tipps und Tricks
 ----------------------
+Da wir keine komplette Boilerplate bauen wollen möchte ich hier nur auf ein paar der wichtigsten und hilfreichsten eingehen Mappings eingehen. Ich denke auch das mit diesen Tipps jeder in der Lage ist seine eigene individuelle Boilerplate zu bauen oder in den kommenden Projekten schneller bei der Integration von Bootstrap in Magento ist.
 
-- Breakpoints von Bootstrap einfacher nutzen?
+Damit wir ein wenig die Ordnung behalten, denn es können wirklich sehr sehr viele Mappings werden, empfiehlt es sich die Mappings nicht nur in eine sonderen in mehrere Dateien auszulagern. Für mich hat sich dabei die folgende Strukur bewährt:
+```
+skin/frontend/[yourPackage]/default
+    |- scss
+        |- styles.scss
+        |- _Globale-Klassen.scss
+        |- Blockname
+            |- _Block-Klassen.scss
+            |- __Kind-Klassen.scss
+```
+Also für jeden Block für den es sich lohnt, mache ich dabei einen eigenen Ordner auf, lege darunter eine Datei ab welche die Block-Klassen enthält und mit `__` gekennzeichnet Dateien welche jeweils ein Kind-Block enthält.
 
-- Seitenbereiche mit Bootstrap belegen inkl. Screenshots: 
+### Das Grid: 
+Oh ha, jetzt geht's ans Eingemachte, falsch gedacht. Es ist einfacher als man denkt auf die bestehenden Magento Klassen das Bootstrap Grid zu mappen. Die Macher von Bootstrap waren nämlich so nett uns hierfür einige Mixins zu liefern. Ein super Vorteil davon ist, das der Shop gleich mal einen gewaltigen Schritt in Sachen Responsive nach vorn macht. 
+
+
+
+
+
+
+
+
+
 -- make-row(), 
 -- make-column(), 
 -- etc.
