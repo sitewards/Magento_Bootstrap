@@ -168,6 +168,12 @@ skin/frontend/[yourPackage]/default
 ```
 Also für jeden Block für den es sich lohnt, mache ich dabei einen eigenen Ordner auf, lege darunter eine Datei ab welche die Block-Klassen enthält und mit `__` gekennzeichnet Dateien welche jeweils ein Kind-Block enthält.
 
+### Bootstrap schön machen:
+Es macht total Sinn Bootstrap erstmal ein wenig zu konfigurieren damit es dem entspricht was man erwarted. Diese Konfiguration nehmen wir direkt in der `styles.scss` vor und halten uns dabei and die Bootstrap-Variablen welche unter `bootstrap\assets\stylesheets\bootstrap\variables.scss` zu finden sind. Ein paar der wichtigsten habe ich im folgenden Beispiel ein wenig vorkonfiguriert.
+```
+TODO: Variablen beispiel.
+```
+
 ### Das Grid: 
 Oh ha, jetzt geht's ans Eingemachte, falsch gedacht. Es ist einfacher als man denkt auf die bestehenden Magento Klassen das Bootstrap Grid zu mappen. Die Macher von Bootstrap waren nämlich so nett uns hierfür einige Mixins zu liefern. Ein super Vorteil davon ist, das der Shop gleich mal einen gewaltigen Schritt in Sachen Responsive nach vorn macht. 
 
@@ -177,11 +183,12 @@ Also fangen wir an unser Magento Frontend wieder etwas in form zu bringen. Als e
 skin/frontend/[yourPackage]/default
     |- scss
         |- styles.scss
-        |- Pages
-            |- _pages-grid.scss
+        |- page
+            |- _grid.scss
 ```
 
 In unserer _pages-grid.scss sammeln wir mal die wichtigsten gegebenen Struktur-Klassen und erweitern diese mit den zur Verfügung stehenden Mixins. Ich habe das im folgenden schonmal vorbereitet:
+
 ```scss
 .wrapper {}
 .page {}
@@ -209,19 +216,39 @@ In unserer _pages-grid.scss sammeln wir mal die wichtigsten gegebenen Struktur-K
     .sidebar {}
 }
 ```
-Und zack haben wir wieder eine "ordentliche" Seitenstruktur, Easy, oder?
 
+Und zack haben wir wieder eine "ordentliche" Seitenstruktur, Easy, oder? Die mixins die uns hier das Leben erleichtern sind `make-row()` und `make-[breakpoint]-column()` als Parameter kann man diesen Mixins z.B. die Gutter-Breite übergeben womit wir in der Lage sind das Grid sogar für andere Blöcke anpassen kann. Das Mixin für "columns" `make-[breakpoint]-column()` erwarted zudem noch die Spaltenbreite als ersten Parameter. Wichtig ist hier zudem zu erwähnen das man in Bootstrap Grids verschachteln kann wichtig ist dabei nur dass diese wieder mit einer `row` umgeben sind. Wann immer ihr also eine weitere Grid-Struktur benötigt könnt ihr die Mixins benutzen wie z.B. im Product-Grid.
 
+```
+skin/frontend/[yourPackage]/default
+    |- scss
+        |- styles.scss
+        |- page
+            |- _grid.scss
+        |- catalog
+            |- product
+                |- _grid.scss
+```
 
+Spätestens jetzt seht ihr auch wo die Reise mit den Ordner hin geht, wir können im SCSS eine ähnliche Struktur abbilden wie wir sie in den Magento-Templates vorfinden, dies erleichtert später die Suche nach Styles.
 
+```scss
+TODO: Beispiel Product listing
+```
 
+Wenn wir jetzt noch die Buttons ein wenig hüpsch machen, haben wir schon fast wieder einen benutzbaren Shop. Die Buttons sind natürlich über den gesamten Shop global also setzen wir diese direkt in den `root` SCSS Order.
 
--- make-row(), 
--- make-column(), 
--- etc.
+```
+skin/frontend/[yourPackage]/default
+    |- scss
+        |- styles.scss
+        |- _buttons.scss
+        |- page
+        |- catalog 
+```
+```scss
+TODO: Beispiel Button mapping
+```
 
-- Extend mixins
-
-- Bootstrap Buttons mit eigenen Sytles Erweitern?
-
-- Zusammenfassung
+### Mixins Erweitern:
+TODO: Extend mixins am breakpoint beispiel

@@ -30,6 +30,9 @@
 @import "bootstrap/assets/stylesheets/bootstrap/responsive-utilities";
 
 //-------------------
-// Deine SCSS Dateien sollten hier eingefügt werden:
+// Deine Bootstrap eistellungen sollten hier eingefügt werden:
+$grid-gutter-width: 30;
 
 //-------------------
+// Deine SCSS Dateien sollten hier eingefügt werden:
+@import "page/_grid"
