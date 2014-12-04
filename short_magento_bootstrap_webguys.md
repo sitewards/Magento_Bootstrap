@@ -190,34 +190,52 @@ skin/frontend/[yourPackage]/default
 In unserer _pages-grid.scss sammeln wir mal die wichtigsten gegebenen Struktur-Klassen und erweitern diese mit den zur Verfügung stehenden Mixins. Ich habe das im folgenden schonmal vorbereitet:
 
 ```scss
-.wrapper {}
-.page {}
-
-//==== col 1 layout ====
-.col1-layout {
-    .col-main {}
+.page {
+  @extend .container;
 }
 
-//==== col 2 layout ====
-.col2-left-layout,
-.col2-right-layout {
-    .col-main {}
-}
-.col2-left-layout {
-    .col-left {}
-}
-.col2-right-layout {
-    .col-right {}
-}
+.main-container {
+  @include make-row();
 
-//==== col 3 layout ====
-.col3-layout {
-    .col-main {}
-    .sidebar {}
+  //==== col 1 layout ====
+  &.col1-layout {
+    .col-main {
+      @include make-md-column(12);
+    }
+  }
+
+  //==== col 2 layout ====
+  &.col2-left-layout,
+  &.col2-right-layout {
+    .col-main {
+      @include make-md-column(8);
+    }
+  }
+  &.col2-left-layout {
+    .col-left {
+      @include make-md-column(4);
+    }
+  }
+  &.col2-right-layout {
+    .col-right {
+      @include make-md-column(4);
+    }
+  }
+
+  //==== col 3 layout ====
+  &.col3-layout {
+    .col-main {
+      @include make-md-column(6);
+    }
+    .sidebar {
+      @include make-md-column(3);
+    }
+  }
 }
 ```
 
 Und zack haben wir wieder eine "ordentliche" Seitenstruktur, Easy, oder? Die mixins die uns hier das Leben erleichtern sind `make-row()` und `make-[breakpoint]-column()` als Parameter kann man diesen Mixins z.B. die Gutter-Breite übergeben womit wir in der Lage sind das Grid sogar für andere Blöcke anpassen kann. Das Mixin für "columns" `make-[breakpoint]-column()` erwarted zudem noch die Spaltenbreite als ersten Parameter. Wichtig ist hier zudem zu erwähnen das man in Bootstrap Grids verschachteln kann wichtig ist dabei nur dass diese wieder mit einer `row` umgeben sind. Wann immer ihr also eine weitere Grid-Struktur benötigt könnt ihr die Mixins benutzen wie z.B. im Product-Grid.
+Warum benutze ich hier nicht z.B. `@extend .col-md-5`? Gute Frage, ich habe extra hierauf verzichted damit ich euch zeigen kann wie flexibel bootstrap sein kann. Außerdem ist extend nicht in der Lage die z.b. mediaqueries mit zu übernehmen was im ersten Moment durchaus graue Haare verursachen kann wenn man Stundenlang nach dem Problem sucht und keines findet.
 
 ```
 skin/frontend/[yourPackage]/default

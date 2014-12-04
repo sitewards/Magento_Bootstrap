@@ -39,4 +39,5 @@ gulp.task('clean', function() {
             }));
 });
 
-gulp.task('default', ['clean', 'scss', 'js', 'fonts']);
+gulp.task('default', ['clean', 'build']);
+gulp.task('build', ['clean','scss', 'js', 'fonts']);

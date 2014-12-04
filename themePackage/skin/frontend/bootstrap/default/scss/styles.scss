@@ -1,0 +1,47 @@
+// Core variables and mixins
+@import "bootstrap/assets/stylesheets/bootstrap/variables";
+@import "bootstrap/assets/stylesheets/bootstrap/mixins";
+
+//-------------------
+// Deine Bootstrap Einstellungen sollten hier eingefügt werden:
+$grid-columns:      12;
+$grid-gutter-width: 30px;
+
+$brand-primary:     darken(#428bca, 6.5%);
+$brand-success:     #5cb85c;
+$brand-info:        #5bc0de;
+$brand-warning:     #f0ad4e;
+$brand-danger:      #d9534f;
+//-------------------
+
+// Reset and dependencies
+@import "bootstrap/assets/stylesheets/bootstrap/normalize";
+@import "bootstrap/assets/stylesheets/bootstrap/print";
+@import "bootstrap/assets/stylesheets/bootstrap/glyphicons";
+
+// Core CSS
+@import "bootstrap/assets/stylesheets/bootstrap/scaffolding";
+@import "bootstrap/assets/stylesheets/bootstrap/type";
+@import "bootstrap/assets/stylesheets/bootstrap/code";
+@import "bootstrap/assets/stylesheets/bootstrap/grid";
+@import "bootstrap/assets/stylesheets/bootstrap/tables";
+@import "bootstrap/assets/stylesheets/bootstrap/forms";
+@import "bootstrap/assets/stylesheets/bootstrap/buttons";
+
+//-------------------
+// User Components
+// Hier kannst du weitere Komponenten einfügen je nachdem welche benötig werden.
+@import "bootstrap/assets/stylesheets/bootstrap/dropdowns";
+@import "bootstrap/assets/stylesheets/bootstrap/button-groups";
+@import "bootstrap/assets/stylesheets/bootstrap/close";
+@import "bootstrap/assets/stylesheets/bootstrap/modals";
+//-------------------
+
+// Utility classes
+@import "bootstrap/assets/stylesheets/bootstrap/utilities";
+@import "bootstrap/assets/stylesheets/bootstrap/responsive-utilities";
+
+//-------------------
+// Deine SCSS Dateien sollten hier eingefügt werden:
+@import "page/_grid";
+//-------------------
