@@ -5,33 +5,27 @@
             <!-- Entferne Magento Dateien -->
             <action method="removeItem">
                 <type>skin_css</type>
-                <name>css/print.css</name>
+                <name>css/madisonisland-ie8.css</name>
             </action>
             <action method="removeItem">
                 <type>skin_css</type>
-                <name>css/styles-ie.css</name>
+                <name>css/madisonisland.css</name>
             </action>
-            <action method="removeItem">
-                <type>skin_css</type>
-                <name>css/widgets.css</name>
-            </action>
-            <action method="removeItem">
-                <type>skin_js</type>
-                <name>js/ie6.js</name>
-            </action>
-
-            <!-- Diesen Block behalten wir
-            <action method="removeItem">
-                <type>skin_css</type>
-                <name>css/styles.css</name>
-            </action>
-            -->
 
             <!-- Lade Bootstrap JS Dateien -->
             <action method="addItem">
                 <type>skin_js</type>
                 <name>js/bootstrap.min.js</name>
             </action>
+
+            <!-- Setze wichtige Einstellungen -->
+            <remove name="head.viewport" />
+            <block type="core/text" name="head.bs.ux">
+                <action method="setText"><text><![CDATA[<meta http-equiv="X-UA-Compatible" content="IE=edge">]]>&#10;</text></action>
+            </block>
+            <block type="core/text" name="head.bs.viewport">
+                <action method="setText"><text><![CDATA[<meta name="viewport" content="width=device-width, initial-scale=1">]]>&#10;</text></action>
+            </block>
         </reference>
     </default>
 </layout>

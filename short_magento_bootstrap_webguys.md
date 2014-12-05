@@ -235,7 +235,11 @@ In unserer _pages-grid.scss sammeln wir mal die wichtigsten gegebenen Struktur-K
 ```
 
 Und zack haben wir wieder eine "ordentliche" Seitenstruktur, Easy, oder? Die mixins die uns hier das Leben erleichtern sind `make-row()` und `make-[breakpoint]-column()` als Parameter kann man diesen Mixins z.B. die Gutter-Breite übergeben womit wir in der Lage sind das Grid sogar für andere Blöcke anpassen kann. Das Mixin für "columns" `make-[breakpoint]-column()` erwarted zudem noch die Spaltenbreite als ersten Parameter. Wichtig ist hier zudem zu erwähnen das man in Bootstrap Grids verschachteln kann wichtig ist dabei nur dass diese wieder mit einer `row` umgeben sind. Wann immer ihr also eine weitere Grid-Struktur benötigt könnt ihr die Mixins benutzen wie z.B. im Product-Grid.
-Warum benutze ich hier nicht z.B. `@extend .col-md-5`? Gute Frage, ich habe extra hierauf verzichted damit ich euch zeigen kann wie flexibel bootstrap sein kann. Außerdem ist extend nicht in der Lage die z.b. mediaqueries mit zu übernehmen was im ersten Moment durchaus graue Haare verursachen kann wenn man Stundenlang nach dem Problem sucht und keines findet.
+Warum benutze ich hier nicht z.B. `@extend .col-md-5`? Gute Frage, ich habe extra hierauf verzichted damit ich euch zeigen kann wie flexibel bootstrap sein kann. 
+
+Außerdem ist extend nicht in der Lage die z.b. mediaqueries mit zu übernehmen was im ersten Moment durchaus graue Haare verursachen kann wenn man Stundenlang nach dem Problem sucht und keines findet.
+- nicht mehr seid version libsass x.x.x
+es gibt allerdings weiterhin probleme mit extend
 
 ```
 skin/frontend/[yourPackage]/default
