@@ -4,15 +4,40 @@
 
 //-------------------
 // Deine Bootstrap Einstellungen sollten hier eingefügt werden:
-$grid-columns:      12;
-$grid-gutter-width: 30px;
+// Grid:
+$grid-columns:              12;
+$grid-gutter-width:         20px;
+$grid-float-breakpoint:     $screen-sm-min;
+$grid-float-breakpoint-max: ($grid-float-breakpoint - 1);
 
-$brand-primary:     darken(#428bca, 6.5%);
-$brand-success:     #5cb85c;
-$brand-info:        #5bc0de;
-$brand-warning:     #f0ad4e;
-$brand-danger:      #d9534f;
-$brand-buy:         #b368d6;
+// Container:
+$container-tablet:          (720px + $grid-gutter-width);
+$container-sm:              $container-tablet;
+$container-desktop:         (940px + $grid-gutter-width);
+$container-md:              $container-desktop;
+$container-large-desktop:   (1140px + $grid-gutter-width);
+$container-lg:              $container-large-desktop;
+
+// Schriften:
+$font-family-base:      $font-family-sans-serif !default;
+$font-size-base:        14px !default;
+$font-size-large:       ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-small:       ceil(($font-size-base * 0.85)) !default; // ~12px
+
+// Buttons:
+$btn-default-color:     #333;
+$btn-default-bg:        #fff;
+$btn-default-border:    #ccc;
+
+// Farben:
+$brand-primary:         darken(#428bca, 6.5%);
+$brand-success:         #5cb85c;
+$brand-info:            #5bc0de;
+$brand-warning:         #f0ad4e;
+$brand-danger:          #d9534f;
+
+// Eine neue Farbe für den "Add to cart" Button
+$brand-buy:             #b368d6 !default;
 //-------------------
 
 // Reset and dependencies

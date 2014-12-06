@@ -1,49 +1,54 @@
-How to: Magento Frontend mit Bootstrap SCSS
+**Magento Frontend mit Bootstrap SCSS**
 ======================
+Mit jedem Boilerplate Theme welches auf einem Framework basiert kommen auch oft eine große Anzahl an Überschreibungen auf uns zu, erst recht wenn es um so komplexe Systeme wie [Magento](http://magento.com/) und um ein Framework wie [Bootstrap](http://getbootstrap.com/) geht.  
+Ein wenig besser wird es, wenn wir statt dem normalen **Bootstrap CSS** zu [**less**](http://lesscss.org/) oder [**SASS**](http://sass-lang.com/) greifen aber um eine wirklich saubere Basis zu bekommen empfiehlt es sich im ersten Schritt auf weitestgehend alles vorhandene zu verzichten und **nur das Magento HTML als Basis** zu sehen.
 
-Einleitung
+Ja es ist viel Arbeit aber es zahlt sich aus zumindest Gedanklich dieses Experiment zu machen, denn durch die einige wirklich hilfreiche Mixins ist es einfacher als man denkt.
+
+Da ich keineswegs von Boilerplates abraten will, möchte ich an dieser Stelle die Webcomm [HTML5 Magento Bootstrap Boilerplate](https://github.com/webcomm/magento-boilerplate) hervorheben, mit der ich sehr gute Erfahrung sammeln konnte. Neben einer sehr guten integration finden wir hier sehr gute CSS Klassen-Mappings zwischen Magento und Bootstrap.
+
+**Und los geht's**
 ----------------------
-Mit jedem Boilerplate Theme das auf einem Framework basiert kommen auch oft eine große Anzahl an Überschreibungen auf uns zu, erst recht wenn es um ein so komplexes System wie Magento geht. Ein wenig besser wird es, wenn wir statt dem normalen Bootstrap CSS Less oder SASS benutzen aber um eine wirklich saubere Basis zu bekommen empfiehlt es sich im ersten Schritt auf weitestgehend alles vorhandene zu verzichten und nur das Magento HTML als Basis zu sehen. Ja, es ist viel Arbeit aber es zahlt sich aus, zumindest Gedanklich dieses Experiment zu machen, denn durch die einige wirklich hilfreiche Mixins ist es einfacher als man denkt.
+Wir könnten natürlich nun, wie es so manch erster Gedanke zu diesem Thema ist, die ganzen `.phtml` Dateien von Magento ändern und **Bootstrap CSS-Klassen** einfügen aber wir wollen möglichst wenig an diesen Dateien verändern. Für einige wenige Templates könnte man dies natürlich machen aber wann hört es auf? Wichtig ist bei dem Einsatz eines Frameworks wie **Bootstrap** dass man möglichst viel davon benutzt, damit man das ohnehin schon große Stylesheet nicht noch zusätzlich aufbläht. 
 
-Da ich keineswegs von Boilerplates abraten will, möchte ich an dieser Stelle eine Boilerplate mit der ich sehr gute Erfahrung sammeln konnte hervorheben, die Webcomm [HTML5 Magento Bootstrap Boilerplate](https://github.com/webcomm/magento-boilerplate). Neben einer sehr guten integration finden wir hier sehr gute Class-Mappings zwischen Magento und Bootstrap. Hier liegt aber auch wieder der Nachteil des Ganzen, denn neben den Standard Bootstrap Styles kommen hier weitere Styles hinzu, welche möglicherweise nicht gewüncht sind und daher überschrieben werden müssen.
+Die Lösung der benannte Probleme ist wie angedeutet der Einsatz einer Präprozessor Sprache wie **SASS/SCSS** oder **less**. Da Bootstrap mittlerweile **SASS/SCSS** auch offiziell unterstützt, kann man sich hier sein Mittel der Wahl aussuchen, ich persönlich tendiere aber zu **SASS/SCSS**, da mir die Syntax angenehmer ist, ich bisher alles in SCSS mache und die Community aktiver zu sein scheint.
 
-Get the thing running
-----------------------
-Zu Problemen mit dem Einsatz von Bootstrap CSS führen vorallem die unterschiedlichen Klassenbenennungen in Magento und die Frage wie man diese am besten mit den Bootstrap-Styles verbindet. Es liegt nahe alle Templates welche benötigt werden mit neuen Klassen zu versehen, dies ist aber die denkbar komplizierteste Lösung. Wenn man allerdings nur ein paar Templates anpassen muss könnte man es in Kauf nehmen? - Nein, denn das würde zudem bedeuten das man ein extrem großes Stylesheet hat von dem man evtl. nur das Grid und Buttons im Bestfall nutzt.
+Nun gibt es hier erstmal ein wenig mehr Vorarbeit zu leisten als einfach eine CSS-Datei an Ort und Stelle zu kopieren.
 
-Die Lösung für dieses Problem, ohne länger auf dem Problem selbst rumreiten zu wollen, ist der Einsatz einer Präprozessor Sprache wie SASS oder LESS. Da Bootstrap mittlerweile SASS auch offiziell unterstützt, kann man sich hier sein Mittel der Wahl aussuchen, ich persönlich rate aber zu SASS bzw. SCSS. [TODO: Why] Natürlich gibt es hier ein wenig mehr Vorarbeit zu leisten als einfach eine CSS-Datei an Ort und Stelle zu kopieren.
+### 1. Bootstrap aufsetzen
+Der einfache Weg ist, die gewünschten Bootstrap Version als gepackte Datei herunter zu laden und in ein Magento Theme Package einzufügen. Dazu wählt man auf der [Bootstrap Download-Page](http://getbootstrap.com/getting-started/#download) zwischen den Optionen "Source Code" (Less) oder der SASS/SCSS Variante. 
 
-### Bootstrap aufsetzen
-Der "Einfache" Weg ist, die gewünschten Bootstrap Version als gepackte Datei herunter zu laden und in ein Theme einzufügen. Dazu wählt man auf der [Bootstrap Download-Page](http://getbootstrap.com/getting-started/#download) zwischen "Source Code" (Less) oder der SASS Variante, Bootstrap liefert hier das komplette Paket, mit u.a. einem [Bower-file](http://bower.io/) welches das updaten der Bootstrap Dateien vereinfacht, in so fern man Bower nutzen will. Wenn Bower nicht genutzt wird und auch nichts von den anderen Möglichkeiten die Bootstrap mitliefert, reicht uns der Ordner "assets" aus dem Bootstrap Paket. Eure Dateistruktur könnten nun wie folgt aussehen:
+Bootstrap liefert hier ein komplette Paket mit unter Anderem einem [Bower-file](http://bower.io/), welches das updaten der Bootstrap Dateien vereinfacht, in so fern man Bower nutzen will. Wenn Bower nicht genutzt wird und auch nichts von den anderen Möglichkeiten die Bootstrap hier mitliefert, reicht uns der Ordner "assets" vollkommen aus. 
 
+Eure Dateistruktur könnten nun wie folgt aussehen:
 ```
-skin/frontend/[yourPackage]/default
+skin/frontend/bootstrap/default
     |- bootstrap
         |- assets
-        |- ...
     |- scss
-        |- styles.scss
     |- css
     |- js
+    |- fonts
+	    |- bootstrap
 ```
+Die Ordner `css`, `js` und `fonts/bootstrap` sind unsere dynamisch befüllten Ordner. Im Ordner `scss` werden im späteren Verlauf die Style Änderungen gemacht.
 
-Wir benötigen zusätzlich noch einen "scss" Ordner um unsere Anpassungen durchzuführen.
+### 2. Magento Dateien entfernen und Bootstrap laden
+Als nächstes müssen wir in der `local.xml` des neuen Magento Themes die Meta-Tags für `viewport` und `http-equiv X-UA-Compatible` einfügen und das bisherige Magento CSS und weitere störende Dateien entfernen. Die Einbindung der Datei `styles.css` kann bestehen bleiben da wir später genau diese Datei dynamisch ausliefern werden um den Theme-Fallback nicht zu brechen.
 
-### Magento CSS entfernen und Bootstrap laden
-Als nächstes müssen wir in der `local.xml` des neuen themes den header für `viewport` und `X-UA-Compatible` einfügen und das bisherige Magento CSS entfernen, die einbindung der datei `styles.css` kann bestehen bleiben da wir sie später nutzen werden.
-
+Wir benötigen jetzt also folgende Datei:
 ```
 app/design/frontend/bootstrap/default
     |- layout
         |- local.xml
 ```
-
+Im Folgenden Beispiel der `local.xml` entfernen wir auch JavaScript welche in ähnlicher oder vielleicht sogar besserer Form in Bootstrap verfügbar sind wie z.B. das JS Menü.
 ```xml
 <?xml version="1.0"?>
 <layout version="0.1.0">
     <default>
         <reference name="head">
-            <!-- Ein paar Magento Default Dateien entfernen -->
+            <!-- Entfernen von Magento Default Dateien -->
             <action method="removeItem">
                 <type>skin_css</type>
                 <name>css/print.css</name>
@@ -69,13 +74,13 @@ app/design/frontend/bootstrap/default
                 <name>varien/menu.js</name>
             </action>
 
-            <!-- Lade Bootstrap JS Dateien -->
+            <!-- Laden der Bootstrap JS Datei -->
             <action method="addItem">
                 <type>skin_js</type>
                 <name>js/bootstrap.min.js</name>
             </action>
 
-            <!-- Setze wichtige Einstellungen -->
+            <!-- Setzen der neuen Meta Tags -->
             <block type="core/text" name="head.bs.ux">
                 <action method="setText"><text><![CDATA[<meta http-equiv="X-UA-Compatible" content="IE=edge">]]>&#10;</text></action>
             </block>
@@ -86,82 +91,116 @@ app/design/frontend/bootstrap/default
     </default>
 </layout>
 ```
-Weiterhin habe ich mit der `etc/theme.xml` das theme auf `default/default` aufgebaut damit wir im Frontend weiterhin ein paar bunte Bildchen sehen, generell ist es natürlich möglich das neue theme sogar auf dem RWD-Theme aufzusetzen, hier muss nur beachtet werden das wir schon `HTML5` und `viewport` im header haben und einige andere css dateien entfert werden müssen.
+Weiterhin haben wir mit Hilfe der neuen Fallback-Konfiguration in der Datei `app/design/frontend/bootstrap/default/etc/theme.xml` das Theme auf `default/default` aufgebaut, damit wir im Frontend weiterhin ein paar bunte Bildchen sehen. Generell ist es natürlich möglich das neue Theme sogar auf dem RWD-Theme aufzusetzen, hier muss nur beachtet werden das wir schon den `HTML5` Doctype und das Meta-Tag für `viewport` im `head` und das noch andere CSS-Dateien gegebenenfalls entfernt werden müssen.
 
-### Kompilierung der Bootstrap CSS und JS Dateien
-Um die Bootstrap Komponenten nun vom Assets-Ordner zu JS und CSS Dateien zu Kompilieren nutzen wir einfache Gulp-Tasks. Das Gulp-File legen wir für unser Beispiel ebenfalls im Theme-Ordner ab, genauso wie die NPM Package-Datei zum Installieren der Gulp-Module.
+### 3. Kompilierung der Bootstrap SCSS- und JS-Dateien
+Um die Bootstrap Komponenten nun vom Assets-Ordner zu JS und CSS Dateien zu Kompilieren nutzen wir [Gulp](http://gulpjs.com/) und einfache Gulp-Tasks, einfach deshalb weil wir hier auf "uglify, minify etc. verzichten". Das **Gulp-File**, die Konfigurations-Datei für Tasks, legen wir für unser Beispiel ebenfalls im Theme-Ordner ab, genauso wie die [NPM](https://www.npmjs.org/) **Package-Datei** zum Installieren der Gulp-Module.
 ```
-skin/frontend/[yourPackage]/default
+skin/frontend/bootstrap/default
     |- gulpfile.js
     |- package.json
 ```
+Wer sich bisher nicht mit diesem Workflow vertraut gemacht hat findet auf Google mit den Keywords "SASS, Gulp, Bootstrap" sehr schnell Hilfe. Im Groben ist die Installation, zumindest unter Windows, sehr einfach:
 
-###### Das Gulp-File:
+1. [Node](http://nodejs.org/) installieren
+2. Da NPM zusammen mit Node installiert wurde nun einfach die Konsole öffnen und mit der Eingabe von `npm --version` schauen ob es korrekt installiert wurde.
+3. Gulp global installieren `npm install -g gulp`.
+4. Testen ob Gulp korrekt installiert wurde `gulp --version`
+5. Party
+ 
+#### Das Gulp-File:
 ```js
-var gulp         = require('gulp'),
-    less         = require('gulp-sass'),
-    rimraf       = require('gulp-rimraf');
+var gulp   = require('gulp'),
+    sass   = require('gulp-sass'),
+    rimraf = require('gulp-rimraf')
+    concat = require('gulp-concat');
 
 // SCSS
-gulp.task('scss', function() {
-    gulp.src('scss/style.scss')
-        .pipe(sass())
-        .pipe(gulp.dest('css'));
+gulp.task('scss', ['clean'], function() {
+    return  gulp.src('scss/styles.scss')
+            .pipe(sass())
+            .pipe(gulp.dest('./css'));
 });
 
 // Bootstrap JavaScript
-gulp.task('js', function() {
-    return gulp.src([
-            "bower_components/bootstrap/js/modal.js"
-        ])
-        .pipe(concat('bootstrap.min.js'))
-        .pipe(gulp.dest('js/'));
+gulp.task('js', ['clean'], function() {
+    return  gulp.src([
+                "bootstrap/assets/javascripts/bootstrap/modal.js"
+            ])
+            .pipe(concat('bootstrap.min.js'))
+            .pipe(gulp.dest('./js'));
+});
+
+// Moving Bootstrap Fonts
+gulp.task('fonts', ['clean'], function () {
+    return  gulp.src(
+                'bootstrap/assets/fonts/bootstrap/*'
+            )
+            .pipe(gulp.dest('fonts/bootstrap'));
 });
 
 // Clean
 gulp.task('clean', function() {
-    gulp.src([
-        'css',
-        'js'
-    ],{read: false})
-    .pipe(rimraf({
-        force: true
-    }));
+    return  gulp.src([
+                './css',
+                './js',
+                './fonts/bootstrap'
+            ],{read: false})
+            .pipe(rimraf({
+                force: true
+            }));
 });
 
-gulp.task('default', ['clean', 'scss', 'js']);
+gulp.task('default', ['clean', 'scss', 'js', 'fonts']);
 ```
-Da wir in Bootstrap mehrere Javascript Komponenten nutzen wollen können wir diese über den "js" Task zusammenschreiben und im "js" Ordner ablegen, welche Module benutzt werden sollen muss im "src" des Tasks angegeben werden wie im Beispiel das "Modal". Schön hieran ist, dass wir kontrollieren können wie groß unsere JavaScript Datei am Ende wird und wir Laden nur wirklich benötigte Module.
 
-Ansonsten haben wir einen Task zum entfernen der dynamischen ordner "css" und "js" und einen Task für das Zusammenfassen der SCSS-Dateien. Für SCSS müssen wir in der Gulp-Datei keine Module oder Dateien aus dem Bootstrap Ordner angeben, dies erledigen wir später in der Styles.scss.
+Um sicher zu gehen das unsere dynamisch erstellten Dateien als erstes gelöscht werden benötigen wir den `clean` Task welcher als Abhängigkeit in jedem anderen Task gesetzt wird und somit als erstes ausgeführt wird.
 
-###### Die Package Datei mit allen benötigten Gulp-Modulen:
-Die Package Datei benötigen wir um alle Gulp-Module zu Installieren, d.h. egal wo wir mit diesem Code arbeiten durch das ausführen von `npm install` werden alle benötigten Module installiert. Die Voraussetzung hierfür ist aber das Node inkl. dem NPM installiert ist.
+Da wir in Bootstrap mehrere Javascript Komponenten nutzen wollen, können wir diese über den `js` Task zusammenschreiben lassen. Welche Module benutzt werden sollen, muss im `src` des Tasks angegeben werden wie im Beispiel das "Bootstrap-Modal". Schön hieran ist, dass wir kontrollieren können wie groß unsere JavaScript Datei am Ende wird und wir wirklich benötigte Module laden. Über weitere Gulp-Module wie z.B. [gulp-uglify](https://www.npmjs.org/package/gulp-uglify) kann man die JavaScript Module auch komprimieren oder auch über [gulp-jshint](https://www.npmjs.org/package/gulp-jshint) Testen.
 
+Der `scss` Task für das Kompilieren der SCSS-Dateien benötigt nur die Angabe der Datei `styles.scss` denn alle weiteren Dateien werden in der besagten SCSS-Datei verknüpft. Auch hier haben wir mit weiteren Gulp-Modulen die Möglichkeit mehr als nur CSS zu erstellen, hier ein paar Beispiele:
+
+- Komprimieren mit [gulp-minify-css](https://www.npmjs.org/package/gulp-minify-css)
+- Aufteilung in mehere CSS-Dateien falls das Klassen-Maximum erreicht ist (IE) mit [gulp-bless](https://www.npmjs.org/package/gulp-bless)
+
+#### Die Package Datei mit allen benötigten Gulp-Modulen:
+Die Package Datei benötigen wir um alle Gulp-Module zu Installieren, d.h. egal wo wir mit diesem Code arbeiten durch das ausführen von `npm install` werden alle benötigten Module installiert.
 ```json
 {
   "name": "bootstrap_magento_theme",
   "version": "0.0.1",
   "description": "Example of how to handle magento frontend together with bootstrap",
+  "main": "gulpfile.js",
+  "keywords": [
+    "magento",
+    "bootstrap",
+    "sass",
+    "scss",
+    "theme",
+    "boilerplate"
+  ],
+  "author": "Tobias Hartmann",
   "dependencies": {
     "gulp": "^3.8.10",
-    "gulp-sass": "^1.1.0",
-    "gulp-rimraf": "^0.1.1"
+    "gulp-rimraf": "^0.1.1",
+    "gulp-concat": "^2.4.2",
+    "gulp-sass": "^1.2.4"
   }
 }
 ```
 
-### Aufsetzen der Style SCSS
-Nun kommen wir zur "Style" Datei, sozusagen dem Herzstück unseres Themes. Um herauszufinden welche Bootstrap Standard Dateien wir benötigen können wir im assets Ordner nach der Datei "_bootstrap.scss" suchen. Wir könnten diese Datei auch direkt in unserer Styles.scss mit `@import` einbinden dabei würden wir aber wieder sämtliche Komponenten laden, was in den meisten Fällen unnötig ist. 
-In der Bootstrap Datei befinden sich glücklicher Weise Kommentare welche uns helfen zu Identifizieren was wir benötigen und was nicht, alles was mit "Components" beschrieben ist, ist Optional, alles 
-andere wird dringend benötigt, easy.
+### 4. Aufsetzen der Style SCSS
+Nun kommen wir zur "Style" Datei, sozusagen dem CSS-Herzstück unseres Themes.
 
+Um herauszufinden welche Bootstrap Standard Dateien wir benötigen, öffnen wir im Ordner `assets` die Datei `_bootstrap.scss`. Wir könnten diese Datei auch direkt in unserer `styles.scss` mit `@import` einbinden dabei würden wir aber sämtliche Komponenten laden, was in den meisten Fällen unnötig ist. In der Bootstrap Datei befinden sich glücklicher Weise Kommentare, welche uns helfen zu Identifizieren was wir benötigen und was nicht. Alles was mit "Components" beschrieben ist, ist Optional, alles 
+andere wird dringend benötigt, easy.
 ```scss
 // Core variables and mixins
 @import "bootstrap/assets/stylesheets/bootstrap/variables";
 @import "bootstrap/assets/stylesheets/bootstrap/mixins";
 
 //-------------------
+// User Settings: 
 // Deine Bootstrap Einstellungen sollten später hier eingefügt werden:
 //-------------------
 
@@ -180,10 +219,8 @@ andere wird dringend benötigt, easy.
 @import "bootstrap/assets/stylesheets/bootstrap/buttons";
 
 //-------------------
-// User Components
+// Bootstrap Modules:
 // Hier kannst du weitere Komponenten einfügen je nachdem welche benötig werden.
-@import "bootstrap/assets/stylesheets/bootstrap/dropdowns";
-@import "bootstrap/assets/stylesheets/bootstrap/button-groups";
 @import "bootstrap/assets/stylesheets/bootstrap/close";
 @import "bootstrap/assets/stylesheets/bootstrap/modals";
 //-------------------
@@ -193,20 +230,26 @@ andere wird dringend benötigt, easy.
 @import "bootstrap/assets/stylesheets/bootstrap/responsive-utilities";
 
 //-------------------
+// User Modules:
 // Deine SCSS Dateien sollten später hier eingefügt werden:
 //-------------------
 ```
+Ich habe mir erlaubt schon mal die Stellen mit Kommentaren zu versehen an denen wir später unsere Styles und Module hinterlegen. 
 
-### Das erste Mal
-Cool, wir sind soweit, nun können wir unseren Code das erste Mal über Gulp in den CSS und JS Ordner schreiben lassen und uns dann endlich den wichtigen Themen widmen.
+Die Sektion **User Settings** wird dabei weitestgehend mit Variablen aus der Datei `skin/frontend/bootstrap/default/bootstrap/assets/stylesheets/bootstrap/_variables.scss` befüllt, welche dort auf das eigene Theme angepasst werden. Natürlich ist es auch ein perfekter Platz um eigene Variablen abzulegen, insofern diese Global verfügbar sein sollen. 
 
-Also einfach mutig sein, `gulp` in die Konsole eingeben und Return/Enter drücken. 
+In der Sektion **Bootstrap Modules** führen wir alle Module auf welche wir später im Shop benutzen wollen. Eine Liste mit allen verfügbaren Modulen findet ihr in der Datei `skin/frontend/bootstrap/default/bootstrap/assets/stylesheets/_bootstrap.scss` unter dem Kommentar `// Components` und `// Components w/ JavaScript`.
 
-Mappings, Magento SCSS, Tipps und Tricks
+Die Sektion **User Modules** ist den eigenen Modulen vorbehalten, von denen wir ein paar im Folgenden beschreiben werden.
+
+### 5. Das erste Mal Gulp
+Super, wir sind soweit, nun können wir unseren Code das erste Mal über Gulp in den CSS-, JS- und Font-Ordner schreiben lassen. Also nur Mut, `gulp` in die Konsole eingeben und Return/Enter drücken. Eure Konsole wird nun die Einzelnen Tasks ausgeben und am Ende sollten wir in den oben genannten Ordnern Dateien vorfinden.  
+
+**SCSS, Mappings, Tipps und Tricks**
 ----------------------
-Da wir keine komplette Boilerplate bauen wollen möchte ich hier nur auf ein paar der wichtigsten und hilfreichsten eingehen Mappings eingehen. Ich denke auch das mit diesen Tipps jeder in der Lage ist seine eigene individuelle Boilerplate zu bauen oder in den kommenden Projekten schneller bei der Integration von Bootstrap in Magento ist.
+Da wir in diesem Artikel keine komplette Boilerplate bauen wollen möchte ich hier nur auf ein paar der wichtigsten und hilfreichsten ["Mixin"](http://sass-lang.com/guide#topic-6) Funktionen eingehen. Ich denke auch dass mit diesen Tipps jeder in der Lage sein wird seine eigene individuelle Boilerplate zu bauen oder in den kommenden Projekten schneller bei der Integration von Bootstrap in Magento ist.
 
-Damit wir ein wenig die Ordnung behalten, denn es können wirklich sehr sehr viele Mappings werden, empfiehlt es sich die Mappings nicht nur in eine sonderen in mehrere Dateien auszulagern. Für mich hat sich dabei die folgende Strukur bewährt:
+Damit wir ein wenig die **Ordnung** behalten, denn es können wirklich sehr sehr viele Mappings werden, empfiehlt es sich die Mappings nicht nur in eine, sondern in mehrere Dateien, auszulagern. Für mich hat sich dabei die folgende Struktur bewährt:
 ```
 skin/frontend/bootstrap/default
     |- scss
@@ -216,31 +259,68 @@ skin/frontend/bootstrap/default
             |- _Block-Klassen.scss
             |- __Kind-Klassen.scss
 ```
-Also für jeden Block für den es sich lohnt, mache ich dabei einen eigenen Ordner auf, lege darunter eine Datei ab welche die Block-Klassen enthält und mit `__` gekennzeichnet Dateien welche jeweils ein Kind-Block enthält.
+Also für jeden Block für den es sich lohnt z.B. "Page", mache ich dabei einen eigenen Ordner auf. Darunter lege ich eine Datei ab, welche die Block-Klassen enthält und mit `__` gekennzeichnet Dateien welche jeweils einen Kind-Block enthalten.
 
 ### Bootstrap schön machen:
-Es macht total Sinn Bootstrap erstmal ein wenig zu konfigurieren damit es dem entspricht was man erwarted. Diese Konfiguration nehmen wir direkt in der `styles.scss` vor und halten uns dabei and die Bootstrap-Variablen welche unter `bootstrap\assets\stylesheets\bootstrap\variables.scss` zu finden sind. Ein paar der wichtigsten habe ich im folgenden Beispiel ein wenig vorkonfiguriert.
-```
-$grid-columns:      12;
-$grid-gutter-width: 30px;
+Da Bootstrap von vorn herein ein gewisses Styling mit sich bringt könnte man, falls dieses Styling passend ist, darauf verzichten die Konfiguration zu überschreiben. Wir wollen uns aber trotzdem zumindest anschauen wie es geht. 
 
-$brand-primary:     darken(#428bca, 6.5%);
-$brand-success:     #5cb85c;
-$brand-info:        #5bc0de;
-$brand-warning:     #f0ad4e;
-$brand-danger:      #d9534f;
+Die Konfiguration nehmen wir direkt in der `styles.scss` vor und halten uns dabei an die Bootstrap-Variablen welche unter `bootstrap/assets/stylesheets/bootstrap/_variables.scss` zu finden sind. Ein paar der interessantesten habe ich im folgenden aufgezeigt.
+```scss
+// Grid:
+$grid-columns:              12;
+$grid-gutter-width:         20px;
+$grid-float-breakpoint:     $screen-sm-min;
+$grid-float-breakpoint-max: ($grid-float-breakpoint - 1);
+
+// Container:
+$container-tablet:          (720px + $grid-gutter-width);
+$container-sm:              $container-tablet;
+$container-desktop:         (940px + $grid-gutter-width);
+$container-md:              $container-desktop;
+$container-large-desktop:   (1140px + $grid-gutter-width);
+$container-lg:              $container-large-desktop;
+
+// Schriften:
+$font-family-base:      $font-family-sans-serif !default;
+$font-size-base:        14px !default;
+$font-size-large:       ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-small:       ceil(($font-size-base * 0.85)) !default; // ~12px
+
+// Buttons:
+$btn-default-color:     #333;
+$btn-default-bg:        #fff;
+$btn-default-border:    #ccc;
+
+// Farben:
+$brand-primary:         darken(#428bca, 6.5%);
+$brand-success:         #5cb85c;
+$brand-info:            #5bc0de;
+$brand-warning:         #f0ad4e;
+$brand-danger:          #d9534f;
 
 // Eine neue Farbe für den "Add to cart" Button
-$brand-buy:         #b368d6 !default;
+$brand-buy:             #b368d6 !default;
 ```
+Ihr seht also wir können anhand von wenigen Variablen Bootstrap massiv modifizieren und dies sollten wir auch nutzen. Wenn ihr über die `_variables.scss` geht fällt euch auch bestimmt `!default` ins Auge. Dies hat keineswegs irgendwas mit dem aus CSS bekannten `!important` zu tun, vielmehr bezeichnet es das der aktuelle Wert dieser Variable "Default" ist und überschrieben werden kann. Wenn Wert in einer Variable gesetzt wurde, wird er bei der benutzung von "Default" nicht erneut gesetzt (Überschrieben):
+```scss
+$content: "First content";
+$content: "Second content?" !default;
+$new_content: "First time reference" !default;
 
-TODO: `!default` beschreiben und weitere variablen z.B. fürs Grid
+#main {
+  content: $content;
+  new-content: $new_content;
+}
+```
+wird Kompiliert zu:
+```css
+#main {
+  content: "First content";
+  new-content: "First time reference"; }
+```
+Wenn wir neue globale Variablen anlegen, sollten diese also immer die Bezeichnung `!default` bekommen damit für diese Variable einen Fallback haben.
 
-### Das Grid: 
-TODO: @import "_buttons";
-      @import "page/_grid";
-      @import "catalog/product/_grid";
-
+### TODO :: Das Grid: 
 Oh ha, jetzt geht's ans Eingemachte, falsch gedacht. Es ist einfacher als man denkt auf die bestehenden Magento Klassen das Bootstrap Grid zu mappen. Die Macher von Bootstrap waren nämlich so nett uns hierfür einige Mixins zu liefern. Ein super Vorteil davon ist, das der Shop gleich mal einen gewaltigen Schritt in Sachen Responsive nach vorn macht. 
 
 Die Grid mixins könnt ihr in den Bootstrap assets in dieserm Ordner finden: `bootstrap\assets\stylesheets\bootstrap\mixins\_grid.scss`.
@@ -252,6 +332,8 @@ skin/frontend/bootstrap/default
         |- page
             |- _grid.scss
 ```
+und natürlich auch die `styles.scss` mit `@import "page/_grid";`.
+
 
 In unserer _pages-grid.scss sammeln wir mal die wichtigsten gegebenen Struktur-Klassen und erweitern diese mit den zur Verfügung stehenden Mixins. Ich habe das im folgenden schonmal vorbereitet:
 
@@ -350,7 +432,7 @@ Außerdem ist extend nicht in der Lage die z.b. mediaqueries mit zu übernehmen 
 - nicht mehr seid der version 1.2.0 von gulp-sass
 
 ```
-skin/frontend/[yourPackage]/default
+skin/frontend/bootstrap/default
     |- scss
         |- styles.scss
         |- page
@@ -359,6 +441,7 @@ skin/frontend/[yourPackage]/default
             |- product
                 |- _grid.scss
 ```
+Und in unserer `styles.scss` ergänzen wir `@import "catalog/product/_grid";`
 
 Spätestens jetzt seht ihr auch wo die Reise mit den Ordner hin geht, wir können im SCSS eine ähnliche Struktur abbilden wie wir sie in den Magento-Templates vorfinden, dies erleichtert später die Suche nach Styles.
 
@@ -383,9 +466,9 @@ skin/frontend/bootstrap/default
     |- scss
         |- styles.scss
         |- _buttons.scss
-        |- page
-        |- catalog 
+        |- ...
 ```
+Und in unserer `styles.scss` ergänzen wir `@import "_buttons";`
 
 ```scss
 .button {
