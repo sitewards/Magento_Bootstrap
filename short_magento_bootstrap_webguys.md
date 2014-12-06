@@ -162,30 +162,22 @@ Der `scss` Task für das Kompilieren der SCSS-Dateien benötigt nur die Angabe d
 
 - Komprimieren mit [gulp-minify-css](https://www.npmjs.org/package/gulp-minify-css)
 - Aufteilung in mehere CSS-Dateien falls das Klassen-Maximum erreicht ist (IE) mit [gulp-bless](https://www.npmjs.org/package/gulp-bless)
+- "Above the fold" Optimierung [critical-path-css-demo](https://github.com/addyosmani/critical-path-css-demo)
 
-#### Die Package Datei mit allen benötigten Gulp-Modulen:
+#### Die Package Datei mit den benötigten Gulp-Modulen:
 Die Package Datei benötigen wir um alle Gulp-Module zu Installieren, d.h. egal wo wir mit diesem Code arbeiten durch das ausführen von `npm install` werden alle benötigten Module installiert.
 ```json
 {
-  "name": "bootstrap_magento_theme",
-  "version": "0.0.1",
-  "description": "Example of how to handle magento frontend together with bootstrap",
-  "main": "gulpfile.js",
-  "keywords": [
-    "magento",
-    "bootstrap",
-    "sass",
-    "scss",
-    "theme",
-    "boilerplate"
-  ],
-  "author": "Tobias Hartmann",
-  "dependencies": {
-    "gulp": "^3.8.10",
-    "gulp-rimraf": "^0.1.1",
-    "gulp-concat": "^2.4.2",
-    "gulp-sass": "^1.2.4"
-  }
+    "name": "bootstrap_magento_theme",
+    "version": "0.0.1",
+    "description": "Example of how to handle magento frontend together with bootstrap",
+    "author": "Tobias Hartmann",
+    "dependencies": {
+        "gulp": "^3.8.10",
+        "gulp-rimraf": "^0.1.1",
+        "gulp-concat": "^2.4.2",
+        "gulp-sass": "^1.2.4"
+    }
 }
 ```
 
@@ -261,7 +253,7 @@ skin/frontend/bootstrap/default
 ```
 Also für jeden Block für den es sich lohnt z.B. "Page", mache ich dabei einen eigenen Ordner auf. Darunter lege ich eine Datei ab, welche die Block-Klassen enthält und mit `__` gekennzeichnet Dateien welche jeweils einen Kind-Block enthalten.
 
-### Bootstrap schön machen:
+### Bootstrap konfigurieren:
 Da Bootstrap von vorn herein ein gewisses Styling mit sich bringt könnte man, falls dieses Styling passend ist, darauf verzichten die Konfiguration zu überschreiben. Wir wollen uns aber trotzdem zumindest anschauen wie es geht. 
 
 Die Konfiguration nehmen wir direkt in der `styles.scss` vor und halten uns dabei an die Bootstrap-Variablen welche unter `bootstrap/assets/stylesheets/bootstrap/_variables.scss` zu finden sind. Ein paar der interessantesten habe ich im folgenden aufgezeigt.
@@ -318,13 +310,15 @@ wird Kompiliert zu:
   content: "First content";
   new-content: "First time reference"; }
 ```
-Wenn wir neue globale Variablen anlegen, sollten diese also immer die Bezeichnung `!default` bekommen damit für diese Variable einen Fallback haben.
+Wenn wir neue globale Variablen anlegen, sollten diese also immer die Bezeichnung `!default` bekommen damit wir für diese Variable einen Fallback haben.
 
-### TODO :: Das Grid: 
-Oh ha, jetzt geht's ans Eingemachte, falsch gedacht. Es ist einfacher als man denkt auf die bestehenden Magento Klassen das Bootstrap Grid zu mappen. Die Macher von Bootstrap waren nämlich so nett uns hierfür einige Mixins zu liefern. Ein super Vorteil davon ist, das der Shop gleich mal einen gewaltigen Schritt in Sachen Responsive nach vorn macht. 
+### Das Page Grid: 
+Es ist einfacher als man denkt auf die bestehenden Magento Klassen das Bootstrap Grid zu mappen. Die Macher von Bootstrap waren nämlich so nett uns auch hierfür einige Mixins zu liefern. Ein super Vorteil davon ist, dass der Shop sogleich einen gewaltigen Schritt in Sachen **Responsive** nach vorn macht. 
 
-Die Grid mixins könnt ihr in den Bootstrap assets in dieserm Ordner finden: `bootstrap\assets\stylesheets\bootstrap\mixins\_grid.scss`.
-Also fangen wir an unser Magento Frontend wieder etwas in form zu bringen. Als erstes kümmern wir uns um die "Pages" also die generelle Seitenstruktur, dazu erweitern wir das SCSS wie folgt:
+Die **Grid-Mixins** könnt ihr in diesem Ordner finden:
+`bootstrap\assets\stylesheets\bootstrap\mixins\_grid.scss`
+
+Bringen wir also unser Magento Frontend wieder etwas in form. Als erstes kümmern wir uns um die **Pages** also die generelle Seitenstruktur. Dazu erweitern wir unser SCSS um folgende Datei:
 ```
 skin/frontend/bootstrap/default
     |- scss
@@ -332,57 +326,64 @@ skin/frontend/bootstrap/default
         |- page
             |- _grid.scss
 ```
-und natürlich auch die `styles.scss` mit `@import "page/_grid";`.
+und natürlich referenzieren wir diese auch in der `styles.scss` mit `@import "page/_grid";`.
 
-
-In unserer _pages-grid.scss sammeln wir mal die wichtigsten gegebenen Struktur-Klassen und erweitern diese mit den zur Verfügung stehenden Mixins. Ich habe das im folgenden schonmal vorbereitet:
+In unserer `_pages-grid.scss` sammeln wir nun die wichtigsten gegebenen CSS Struktur-Klassen und erweitern diese mit den zur Verfügung stehenden Mixins. Ich habe mir erlaubt dies im folgenden schon einmal vorzubereiten:
 
 ```scss
 .page {
-  @extend .container;
+    @extend .container;
 }
-
 .main-container {
-  @include make-row();
+    @extend .row;
 
-  //==== col 1 layout ====
-  &.col1-layout {
-    .col-main {
-      @include make-md-column(12);
+    //==== col 1 layout ====
+    &.col1-layout {
+        .col-main {
+            @include make-md-column(12);
+        }
     }
-  }
 
-  //==== col 2 layout ====
-  &.col2-left-layout,
-  &.col2-right-layout {
-    .col-main {
-      @include make-md-column(8);
+    //==== col 2 layout ====
+    &.col2-left-layout,
+    &.col2-right-layout {
+        .col-main {
+            @include make-md-column(8);
+        }
     }
-  }
-  &.col2-left-layout {
-    .col-left {
-      @include make-md-column(4);
+    &.col2-left-layout {
+        .col-left {
+            @include make-md-column(4);
+        }
     }
-  }
-  &.col2-right-layout {
-    .col-right {
-      @include make-md-column(4);
+    &.col2-right-layout {
+        .col-right {
+            @include make-md-column(4);
+        }
     }
-  }
 
-  //==== col 3 layout ====
-  &.col3-layout {
-    .col-main {
-      @include make-md-column(6);
+    //==== col 3 layout ====
+    &.col3-layout {
+        .col-main {
+            @include make-md-column(6);
+        }
+        .sidebar {
+            @include make-md-column(3);
+        }
     }
-    .sidebar {
-      @include make-md-column(3);
-    }
-  }
 }
 ```
+Zur Erklärung, die **Mixins** die uns hier das Leben erleichtern sind folgende
+- `make-row($gutter)` 
+- `make-[breakpoint]-column($columns, $gutter)` 
 
-Leider müssen wir hier auch an die Magento Page-Templates ran. Deren HTML Struktur lässt nämlich ob im RWD-Theme oder im Default zu Wünschen übrig also reduzieren wir diese etwas und schieben vorallem die linke Spalte vor die Hauptspalte.
+Sicherlich kann man den SCSS-Code auch noch weiter zusammen fassen, ich habe aber wegen der Übersichtlichkeit darauf verzichtet. Warum benutze ich hier nicht überall `@extend`? Gute Frage, ich habe erstens extra hierauf verzichtet damit ich euch zeigen kann wie flexibel Bootstrap ist und zweitens war `@extend`  bis zu der Version 1.2.0 von "gulp-sass" nicht in der Lage z.B. Media-Queries, welche in dem zu Erweiternden Element gesetzt wurden, zu berücksichtigen.
+
+Flexibel wird Bootstrap hier weil man diesen Mixins sowohl die Spaltenanzahl als auch die Gutter-Breite mitgeben kann, wir sind also in der Lage das Grid in Abhängigkeit eines Scopes anzupassen.
+  
+Wichtig ist zudem zu erwähnen, dass man Bootstrap Grids **verschachteln** kann, dabei müssen diese allerding nochmals von einer `.row` umgeben werden.
+ 
+Leider müssen wir an dieser Stelle auch an die Magento **Page-Templates** ran. Deren HTML Struktur lässt nämlich ob im RWD-Theme oder im Default zu Wünschen übrig, also reduzieren wir diese etwas und schieben vor allem die linke Spalte vor die Haupt-Spalte.
 ```
 app/design/frontend/bootstrap/default
     |- layout
@@ -393,9 +394,8 @@ app/design/frontend/bootstrap/default
             |- 2columns-right.phtml
             |- 3columns.phtml
 ```
-
-Hier ein Beispiel anhand der `3columns.phtml`. Nicht zu vergessen das wir einen HTML5 Doctype benötigen. Wir werfen also den `col-wrapper` raus und drehen `col-left` und `col-main` und den wrapper `main` entfernen wir ebenfalls da es eine doppelung zu `main-container` ist.
-```html
+Hier ein Beispiel anhand der `3columns.phtml`. Nicht zu vergessen, dass wir einen **HTML5 Doctype** benötigen. Wir werfen also den `.col-wrapper` raus, drehen `.col-left` und `.col-main` und den Wrapper `.main` entfernen wir ebenfalls, da es eine Doppelung zu `.main-container` ist.
+```html,php
 <!DOCTYPE html>
 <head>
     <?php echo $this->getChildHtml('head') ?>
@@ -424,43 +424,41 @@ Hier ein Beispiel anhand der `3columns.phtml`. Nicht zu vergessen das wir einen 
 </body>
 </html>
 ```
+Und zack haben wir wieder eine "ordentliche" Seitenstruktur. War doch **Easy**, oder? 
 
-Und zack haben wir wieder eine "ordentliche" Seitenstruktur, Easy, oder? Die mixins die uns hier das Leben erleichtern sind `make-row()` und `make-[breakpoint]-column()` als Parameter kann man diesen Mixins z.B. die Gutter-Breite übergeben womit wir in der Lage sind das Grid sogar für andere Blöcke anpassen kann. Das Mixin für "columns" `make-[breakpoint]-column()` erwarted zudem noch die Spaltenbreite als ersten Parameter. Wichtig ist hier zudem zu erwähnen das man in Bootstrap Grids verschachteln kann wichtig ist dabei nur dass diese wieder mit einer `row` umgeben sind. Wann immer ihr also eine weitere Grid-Struktur benötigt könnt ihr die Mixins benutzen wie z.B. im Product-Grid.
-Warum benutze ich hier nicht z.B. `@extend .col-md-5`? Gute Frage, ich habe extra hierauf verzichted damit ich euch zeigen kann wie flexibel bootstrap sein kann. 
-
-Außerdem ist extend nicht in der Lage die z.b. mediaqueries mit zu übernehmen was im ersten Moment durchaus graue Haare verursachen kann wenn man Stundenlang nach dem Problem sucht und keines findet.
-- nicht mehr seid der version 1.2.0 von gulp-sass
-
+### Das Product Grid:
+Jetzt bringen wir mit ein paar Zeilen noch fix das Produkt-Grid in Ordnung und um die Flexibilität nochmal zu verdeutlichen können wir hier eine andere Gutter-Breite nutzen, mehr dazu weiter Unten.
 ```
 skin/frontend/bootstrap/default
     |- scss
         |- styles.scss
         |- page
-            |- _grid.scss
         |- catalog
             |- product
                 |- _grid.scss
 ```
-Und in unserer `styles.scss` ergänzen wir `@import "catalog/product/_grid";`
+Und in unserer `styles.scss` ergänzen wir wieder `@import "catalog/product/_grid";`
 
 Spätestens jetzt seht ihr auch wo die Reise mit den Ordner hin geht, wir können im SCSS eine ähnliche Struktur abbilden wie wir sie in den Magento-Templates vorfinden, dies erleichtert später die Suche nach Styles.
 
-Jetzt bringen wir mit ein paar Zeilen noch fix das Produkt-Grid etwas in Ordnung, um die Flexibilität zu verdeutlichen können wir hier eine andere Gutter-Breite nutzen.
+Und hier die `_grid.scss` für Produkte:
 ```scss
 .products-grid {
+    $grid-gutter-width--product: $grid-gutter-width * 2 !default;
+
     list-style: none;
     padding: 0;
 
     @extend .row;
 
     .item {
-        @include make-md-column(6, $grid-gutter-width * 2);
+        @include make-md-column(6, $grid-gutter-width--product);
     }
 }
 ```
 
-Wenn wir jetzt noch die Buttons ein wenig hüpsch machen, haben wir schon fast wieder einen benutzbaren Shop. Die Buttons sind natürlich über den gesamten Shop global also setzen wir diese direkt in den `root` SCSS Order.
-
+### Buttons:
+Wenn wir jetzt noch die Buttons ein wenig hüpsch machen, haben wir schon fast wieder einen benutzbaren Shop. Die Buttons sind natürlich über den gesamten Shop global, also setzen wir diese direkt in den `root` SCSS Order.
 ```
 skin/frontend/bootstrap/default
     |- scss
@@ -484,13 +482,20 @@ Und in unserer `styles.scss` ergänzen wir `@import "_buttons";`
 }
 ```
 
-Sicherlich ist nun klar wie man sich mit wenigen mitteln eine gute basis schaffen kann, dass man einiges an Arbeit vor sich hat um ein so komplexes system komplett zu mappen ist jedoch logisch. Um es zu schaffen das system nach und nach umzubauen können wir die magento styles ebenfalls in unsere scss datei laden und immer wenn eine sektion überarbeitet ist, diese daraus entfernen.
-Ihr könnt diese datei als CSS und mit normalen `@import` einbinden oder aber die dateiendung in scss umändern aber dies überlasse ich euch. 
+### Das Ende:
+Sicherlich ist nun klar wie man sich mit wenigen Mitteln eine gute Basis schaffen kann, dass man einiges an Arbeit vor sich hat um ein so komplexes System komplett zu Mappen ist jedoch absehbar. 
 
-Weiterhin für euch wichte mixins könnten z.B. die folgenden sein.
-```scss
-TODO: Interessante Mixins
-```
+Um so ein Vorhaben bis zum Ende zu bringen empfiehlt es sich iterativ vorzugehen d.h. wir nehmen uns die alte Magento `styles.css` werfen einige generelle Klassen raus und importieren den Rest in die neue `styles.scss`. Ihr könnt diese Datei als CSS und mit normalen `@import` einbinden oder aber die Dateiendung in scss umändern aber dies überlasse ich euch, wichtig ist nur das ihr den Dateiname in sowas wie "magento-lagacy" ändert damit ihr sie später auch wieder findet. Nun können die Klassen und Styles nach und nach ausgetauscht werden.
+
+Weiterhin für euch wichtige Mixins könnten z.B. die folgenden sein.
+
+- `alert-variant($background, $border, $text-color);` für die Magento Messages
+- `img-responsive($display: block)` für Bilder 
+- `clearfix()`
+- `border-top-radius($radius)` gibt es auch für "right", "left" und "bottom" 
+- `table-row-variant($state, $background)` 
+
+Ein Blick in die Datei `_utilities.scss` erleichtert einem auch oftmals das Leben wenn man anfängt Kleinigkeiten als neue Styles zu definieren.
 
 Author
 ----------------------

@@ -1,10 +1,12 @@
 .products-grid {
-  list-style: none;
-  padding: 0;
+    $grid-gutter-width--product: $grid-gutter-width * 2 !default;
 
-  @extend .row;
+    list-style: none;
+    padding: 0;
 
-  .item {
-    @include make-md-column(6, $grid-gutter-width * 2);
-  }
+    @extend .row;
+
+    .item {
+        @include make-md-column(6, $grid-gutter-width--product);
+    }
 }
