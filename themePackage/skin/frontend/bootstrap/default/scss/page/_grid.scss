@@ -3,7 +3,7 @@
 }
 
 .main-container {
-  @include make-row();
+  @extend .row;
 
   //==== col 1 layout ====
   &.col1-layout {

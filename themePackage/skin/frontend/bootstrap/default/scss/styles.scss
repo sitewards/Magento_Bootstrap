@@ -12,6 +12,7 @@ $brand-success:     #5cb85c;
 $brand-info:        #5bc0de;
 $brand-warning:     #f0ad4e;
 $brand-danger:      #d9534f;
+$brand-buy:         #b368d6;
 //-------------------
 
 // Reset and dependencies
@@ -43,5 +44,7 @@ $brand-danger:      #d9534f;
 
 //-------------------
 // Deine SCSS Dateien sollten hier eingefügt werden:
+@import "_buttons";
 @import "page/_grid";
+@import "catalog/product/_grid";
 //-------------------

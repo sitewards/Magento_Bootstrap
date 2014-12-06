@@ -4,14 +4,14 @@ var gulp   = require('gulp'),
     concat = require('gulp-concat');
 
 // SCSS
-gulp.task('scss', function() {
+gulp.task('scss', ['clean'], function() {
     return  gulp.src('scss/styles.scss')
             .pipe(sass())
             .pipe(gulp.dest('./css'));
 });
 
 // Bootstrap JavaScript
-gulp.task('js', function() {
+gulp.task('js', ['clean'], function() {
     return  gulp.src([
                 "bootstrap/assets/javascripts/bootstrap/modal.js"
             ])
@@ -20,7 +20,7 @@ gulp.task('js', function() {
 });
 
 // Moving Bootstrap Fonts
-gulp.task('fonts', function () {
+gulp.task('fonts', ['clean'], function () {
     return  gulp.src(
                 'bootstrap/assets/fonts/bootstrap/*'
             )
@@ -39,5 +39,4 @@ gulp.task('clean', function() {
             }));
 });
 
-gulp.task('default', ['clean', 'build']);
-gulp.task('build', ['clean','scss', 'js', 'fonts']);
+gulp.task('default', ['clean', 'scss', 'js', 'fonts']);

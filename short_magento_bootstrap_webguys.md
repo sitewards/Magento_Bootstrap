@@ -30,50 +30,63 @@ skin/frontend/[yourPackage]/default
 Wir benötigen zusätzlich noch einen "scss" Ordner um unsere Anpassungen durchzuführen.
 
 ### Magento CSS entfernen und Bootstrap laden
-Als nächstes müssen wir das bisherige Magento CSS entfernen und den Pfad zum laden der neuen CSS setzen, dazu bemühen wir die local.xml des Themes.
+Als nächstes müssen wir in der `local.xml` des neuen themes den header für `viewport` und `X-UA-Compatible` einfügen und das bisherige Magento CSS entfernen, die einbindung der datei `styles.css` kann bestehen bleiben da wir sie später nutzen werden.
 
 ```
-app/design/frontend/[yourPackage]/default
+app/design/frontend/bootstrap/default
     |- layout
         |- local.xml
 ```
 
 ```xml
-<default>
-    <reference name="head">
-        <!-- Entferne Magento Dateien -->
-        <action method="removeItem">
-            <type>skin_css</type>
-            <name>css/print.css</name>
-        </action>
-        <action method="removeItem">
-            <type>skin_css</type>
-            <name>css/styles-ie.css</name>
-        </action>
-        <action method="removeItem">
-            <type>skin_css</type>
-            <name>css/widgets.css</name>
-        </action>
-        <action method="removeItem">
-            <type>skin_js</type>
-            <name>js/ie6.js</name>
-        </action>
-        
-        <!-- Diesen Block behalten wir
-        <action method="removeItem">
-            <type>skin_css</type>
-            <name>css/styles.css</name>
-        </action>
-        -->
-        
-        <!-- Lade Bootstrap JS Dateien -->
-        <action method="addItem">
-            <type>skin_js</type>
-            <name>js/script.js</name>
-        </action>
-    </reference>
-</default>
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <!-- Ein paar Magento Default Dateien entfernen -->
+            <action method="removeItem">
+                <type>skin_css</type>
+                <name>css/print.css</name>
+            </action>
+            <action method="removeItem">
+                <type>skin_css</type>
+                <name>css/styles-ie.css</name>
+            </action>
+            <action method="removeItem">
+                <type>skin_css</type>
+                <name>css/widgets.css</name>
+            </action>
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/ie6.js</name>
+            </action>
+            <action method="removeItem">
+                <type>js</type>
+                <name>lib/ds-sleight.js</name>
+            </action>
+            <action method="removeItem">
+                <type>js</type>
+                <name>varien/menu.js</name>
+            </action>
+
+            <!-- Lade Bootstrap JS Dateien -->
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/bootstrap.min.js</name>
+            </action>
+
+            <!-- Setze wichtige Einstellungen -->
+            <block type="core/text" name="head.bs.ux">
+                <action method="setText"><text><![CDATA[<meta http-equiv="X-UA-Compatible" content="IE=edge">]]>&#10;</text></action>
+            </block>
+            <block type="core/text" name="head.bs.viewport">
+                <action method="setText"><text><![CDATA[<meta name="viewport" content="width=device-width, initial-scale=1">]]>&#10;</text></action>
+            </block>
+        </reference>
+    </default>
+</layout>
 ```
+Weiterhin habe ich mit der `etc/theme.xml` das theme auf `default/default` aufgebaut damit wir im Frontend weiterhin ein paar bunte Bildchen sehen, generell ist es natürlich möglich das neue theme sogar auf dem RWD-Theme aufzusetzen, hier muss nur beachtet werden das wir schon `HTML5` und `viewport` im header haben und einige andere css dateien entfert werden müssen.
 
 ### Kompilierung der Bootstrap CSS und JS Dateien
 Um die Bootstrap Komponenten nun vom Assets-Ordner zu JS und CSS Dateien zu Kompilieren nutzen wir einfache Gulp-Tasks. Das Gulp-File legen wir für unser Beispiel ebenfalls im Theme-Ordner ab, genauso wie die NPM Package-Datei zum Installieren der Gulp-Module.
@@ -143,8 +156,45 @@ Nun kommen wir zur "Style" Datei, sozusagen dem Herzstück unseres Themes. Um he
 In der Bootstrap Datei befinden sich glücklicher Weise Kommentare welche uns helfen zu Identifizieren was wir benötigen und was nicht, alles was mit "Components" beschrieben ist, ist Optional, alles 
 andere wird dringend benötigt, easy.
 
-```css
+```scss
+// Core variables and mixins
+@import "bootstrap/assets/stylesheets/bootstrap/variables";
+@import "bootstrap/assets/stylesheets/bootstrap/mixins";
 
+//-------------------
+// Deine Bootstrap Einstellungen sollten später hier eingefügt werden:
+//-------------------
+
+// Reset and dependencies
+@import "bootstrap/assets/stylesheets/bootstrap/normalize";
+@import "bootstrap/assets/stylesheets/bootstrap/print";
+@import "bootstrap/assets/stylesheets/bootstrap/glyphicons";
+
+// Core CSS
+@import "bootstrap/assets/stylesheets/bootstrap/scaffolding";
+@import "bootstrap/assets/stylesheets/bootstrap/type";
+@import "bootstrap/assets/stylesheets/bootstrap/code";
+@import "bootstrap/assets/stylesheets/bootstrap/grid";
+@import "bootstrap/assets/stylesheets/bootstrap/tables";
+@import "bootstrap/assets/stylesheets/bootstrap/forms";
+@import "bootstrap/assets/stylesheets/bootstrap/buttons";
+
+//-------------------
+// User Components
+// Hier kannst du weitere Komponenten einfügen je nachdem welche benötig werden.
+@import "bootstrap/assets/stylesheets/bootstrap/dropdowns";
+@import "bootstrap/assets/stylesheets/bootstrap/button-groups";
+@import "bootstrap/assets/stylesheets/bootstrap/close";
+@import "bootstrap/assets/stylesheets/bootstrap/modals";
+//-------------------
+
+// Utility classes
+@import "bootstrap/assets/stylesheets/bootstrap/utilities";
+@import "bootstrap/assets/stylesheets/bootstrap/responsive-utilities";
+
+//-------------------
+// Deine SCSS Dateien sollten später hier eingefügt werden:
+//-------------------
 ```
 
 ### Das erste Mal
@@ -158,7 +208,7 @@ Da wir keine komplette Boilerplate bauen wollen möchte ich hier nur auf ein paa
 
 Damit wir ein wenig die Ordnung behalten, denn es können wirklich sehr sehr viele Mappings werden, empfiehlt es sich die Mappings nicht nur in eine sonderen in mehrere Dateien auszulagern. Für mich hat sich dabei die folgende Strukur bewährt:
 ```
-skin/frontend/[yourPackage]/default
+skin/frontend/bootstrap/default
     |- scss
         |- styles.scss
         |- _Globale-Klassen.scss
@@ -171,16 +221,32 @@ Also für jeden Block für den es sich lohnt, mache ich dabei einen eigenen Ordn
 ### Bootstrap schön machen:
 Es macht total Sinn Bootstrap erstmal ein wenig zu konfigurieren damit es dem entspricht was man erwarted. Diese Konfiguration nehmen wir direkt in der `styles.scss` vor und halten uns dabei and die Bootstrap-Variablen welche unter `bootstrap\assets\stylesheets\bootstrap\variables.scss` zu finden sind. Ein paar der wichtigsten habe ich im folgenden Beispiel ein wenig vorkonfiguriert.
 ```
-TODO: Variablen beispiel.
+$grid-columns:      12;
+$grid-gutter-width: 30px;
+
+$brand-primary:     darken(#428bca, 6.5%);
+$brand-success:     #5cb85c;
+$brand-info:        #5bc0de;
+$brand-warning:     #f0ad4e;
+$brand-danger:      #d9534f;
+
+// Eine neue Farbe für den "Add to cart" Button
+$brand-buy:         #b368d6 !default;
 ```
 
+TODO: `!default` beschreiben und weitere variablen z.B. fürs Grid
+
 ### Das Grid: 
+TODO: @import "_buttons";
+      @import "page/_grid";
+      @import "catalog/product/_grid";
+
 Oh ha, jetzt geht's ans Eingemachte, falsch gedacht. Es ist einfacher als man denkt auf die bestehenden Magento Klassen das Bootstrap Grid zu mappen. Die Macher von Bootstrap waren nämlich so nett uns hierfür einige Mixins zu liefern. Ein super Vorteil davon ist, das der Shop gleich mal einen gewaltigen Schritt in Sachen Responsive nach vorn macht. 
 
 Die Grid mixins könnt ihr in den Bootstrap assets in dieserm Ordner finden: `bootstrap\assets\stylesheets\bootstrap\mixins\_grid.scss`.
 Also fangen wir an unser Magento Frontend wieder etwas in form zu bringen. Als erstes kümmern wir uns um die "Pages" also die generelle Seitenstruktur, dazu erweitern wir das SCSS wie folgt:
 ```
-skin/frontend/[yourPackage]/default
+skin/frontend/bootstrap/default
     |- scss
         |- styles.scss
         |- page
@@ -234,12 +300,54 @@ In unserer _pages-grid.scss sammeln wir mal die wichtigsten gegebenen Struktur-K
 }
 ```
 
+Leider müssen wir hier auch an die Magento Page-Templates ran. Deren HTML Struktur lässt nämlich ob im RWD-Theme oder im Default zu Wünschen übrig also reduzieren wir diese etwas und schieben vorallem die linke Spalte vor die Hauptspalte.
+```
+app/design/frontend/bootstrap/default
+    |- layout
+    |- templates
+        |- themes
+            |- 1column.phtml
+            |- 2columns-left.phtml
+            |- 2columns-right.phtml
+            |- 3columns.phtml
+```
+
+Hier ein Beispiel anhand der `3columns.phtml`. Nicht zu vergessen das wir einen HTML5 Doctype benötigen. Wir werfen also den `col-wrapper` raus und drehen `col-left` und `col-main` und den wrapper `main` entfernen wir ebenfalls da es eine doppelung zu `main-container` ist.
+```html
+<!DOCTYPE html>
+<head>
+    <?php echo $this->getChildHtml('head') ?>
+</head>
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+    <?php echo $this->getChildHtml('after_body_start') ?>
+    <div class="wrapper">
+        <?php echo $this->getChildHtml('global_notices') ?>
+        <div class="page">
+            <?php echo $this->getChildHtml('header') ?>
+            <div class="main-container col3-layout">
+                <?php echo $this->getChildHtml('breadcrumbs') ?>
+                <div class="col-left sidebar"><?php echo $this->getChildHtml('left') ?></div>
+                <div class="col-main">
+                    <?php echo $this->getChildHtml('global_messages') ?>
+                    <?php echo $this->getChildHtml('content') ?>
+                </div>
+                <div class="col-right sidebar"><?php echo $this->getChildHtml('right') ?></div>
+            </div>
+            <?php echo $this->getChildHtml('footer') ?>
+            <?php echo $this->getChildHtml('global_cookie_notice') ?>
+            <?php echo $this->getChildHtml('before_body_end') ?>
+        </div>
+    </div>
+    <?php echo $this->getAbsoluteFooter() ?>
+</body>
+</html>
+```
+
 Und zack haben wir wieder eine "ordentliche" Seitenstruktur, Easy, oder? Die mixins die uns hier das Leben erleichtern sind `make-row()` und `make-[breakpoint]-column()` als Parameter kann man diesen Mixins z.B. die Gutter-Breite übergeben womit wir in der Lage sind das Grid sogar für andere Blöcke anpassen kann. Das Mixin für "columns" `make-[breakpoint]-column()` erwarted zudem noch die Spaltenbreite als ersten Parameter. Wichtig ist hier zudem zu erwähnen das man in Bootstrap Grids verschachteln kann wichtig ist dabei nur dass diese wieder mit einer `row` umgeben sind. Wann immer ihr also eine weitere Grid-Struktur benötigt könnt ihr die Mixins benutzen wie z.B. im Product-Grid.
 Warum benutze ich hier nicht z.B. `@extend .col-md-5`? Gute Frage, ich habe extra hierauf verzichted damit ich euch zeigen kann wie flexibel bootstrap sein kann. 
 
 Außerdem ist extend nicht in der Lage die z.b. mediaqueries mit zu übernehmen was im ersten Moment durchaus graue Haare verursachen kann wenn man Stundenlang nach dem Problem sucht und keines findet.
-- nicht mehr seid version libsass x.x.x
-es gibt allerdings weiterhin probleme mit extend
+- nicht mehr seid der version 1.2.0 von gulp-sass
 
 ```
 skin/frontend/[yourPackage]/default
@@ -254,23 +362,52 @@ skin/frontend/[yourPackage]/default
 
 Spätestens jetzt seht ihr auch wo die Reise mit den Ordner hin geht, wir können im SCSS eine ähnliche Struktur abbilden wie wir sie in den Magento-Templates vorfinden, dies erleichtert später die Suche nach Styles.
 
+Jetzt bringen wir mit ein paar Zeilen noch fix das Produkt-Grid etwas in Ordnung, um die Flexibilität zu verdeutlichen können wir hier eine andere Gutter-Breite nutzen.
 ```scss
-TODO: Beispiel Product listing
+.products-grid {
+    list-style: none;
+    padding: 0;
+
+    @extend .row;
+
+    .item {
+        @include make-md-column(6, $grid-gutter-width * 2);
+    }
+}
 ```
 
 Wenn wir jetzt noch die Buttons ein wenig hüpsch machen, haben wir schon fast wieder einen benutzbaren Shop. Die Buttons sind natürlich über den gesamten Shop global also setzen wir diese direkt in den `root` SCSS Order.
 
 ```
-skin/frontend/[yourPackage]/default
+skin/frontend/bootstrap/default
     |- scss
         |- styles.scss
         |- _buttons.scss
         |- page
         |- catalog 
 ```
+
 ```scss
-TODO: Beispiel Button mapping
+.button {
+    @extend .btn;
+
+    &.btn-cart {
+        @include button-variant(
+            #ffffff,
+            $brand-buy,
+            darken($brand-buy, 50%)
+        );
+    }
+}
 ```
 
-### Mixins Erweitern:
-TODO: Extend mixins am breakpoint beispiel
+Sicherlich ist nun klar wie man sich mit wenigen mitteln eine gute basis schaffen kann, dass man einiges an Arbeit vor sich hat um ein so komplexes system komplett zu mappen ist jedoch logisch. Um es zu schaffen das system nach und nach umzubauen können wir die magento styles ebenfalls in unsere scss datei laden und immer wenn eine sektion überarbeitet ist, diese daraus entfernen.
+Ihr könnt diese datei als CSS und mit normalen `@import` einbinden oder aber die dateiendung in scss umändern aber dies überlasse ich euch. 
+
+Weiterhin für euch wichte mixins könnten z.B. die folgenden sein.
+```scss
+TODO: Interessante Mixins
+```
+
+Author
+----------------------

@@ -1,0 +1,11 @@
+.button {
+    @extend .btn;
+
+    &.btn-cart {
+        @include button-variant(
+            #ffffff,
+            $brand-buy,
+            darken($brand-buy, 50%)
+        );
+    }
+}

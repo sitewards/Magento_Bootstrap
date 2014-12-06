@@ -2,14 +2,30 @@
 <layout version="0.1.0">
     <default>
         <reference name="head">
-            <!-- Entferne Magento Dateien -->
+            <!-- Ein paar Magento Default Dateien entfernen -->
             <action method="removeItem">
                 <type>skin_css</type>
-                <name>css/madisonisland-ie8.css</name>
+                <name>css/print.css</name>
             </action>
             <action method="removeItem">
                 <type>skin_css</type>
-                <name>css/madisonisland.css</name>
+                <name>css/styles-ie.css</name>
+            </action>
+            <action method="removeItem">
+                <type>skin_css</type>
+                <name>css/widgets.css</name>
+            </action>
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/ie6.js</name>
+            </action>
+            <action method="removeItem">
+                <type>js</type>
+                <name>lib/ds-sleight.js</name>
+            </action>
+            <action method="removeItem">
+                <type>js</type>
+                <name>varien/menu.js</name>
             </action>
 
             <!-- Lade Bootstrap JS Dateien -->
@@ -19,7 +35,6 @@
             </action>
 
             <!-- Setze wichtige Einstellungen -->
-            <remove name="head.viewport" />
             <block type="core/text" name="head.bs.ux">
                 <action method="setText"><text><![CDATA[<meta http-equiv="X-UA-Compatible" content="IE=edge">]]>&#10;</text></action>
             </block>
