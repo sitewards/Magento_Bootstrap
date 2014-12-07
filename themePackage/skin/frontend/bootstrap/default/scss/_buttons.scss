@@ -1,11 +1,14 @@
 .button {
+    $button-text-default:   $brand-base !default;
+    $button-bg-buy:         $brand-buy !default;
+
     @extend .btn;
 
     &.btn-cart {
         @include button-variant(
-            #ffffff,
-            $brand-buy,
-            darken($brand-buy, 50%)
+            $button-text-default,
+            $button-bg-buy,
+            darken($button-bg-buy, 50%)
         );
     }
 }
