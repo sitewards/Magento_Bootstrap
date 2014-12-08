@@ -71,6 +71,6 @@ $brand-base:            #ffffff !default;
 //-------------------
 // Deine SCSS Dateien sollten hier eingefügt werden:
 @import "_buttons";
-@import "page/_grid";
-@import "catalog/product/_grid";
+@import "page/__grid";
+@import "catalog/product/__grid";
 //-------------------
