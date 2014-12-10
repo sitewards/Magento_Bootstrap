@@ -4,7 +4,7 @@ In diesem Artikel schauen wir gemeinsam, wie ein **Magento Theme** auf **Bootstr
 
 #### Warum?
 
-**Weil** ... mit jedem **Boilerplate Theme**, welches auf einem Framework basiert kommen auch eine große Anzahl an Überschreibungen auf uns zu, erst recht wenn es um so komplexe Systeme wie [Magento](http://magento.com/) und um ein Framework wie [Bootstrap](http://getbootstrap.com/) geht.  
+**Weil** mit jedem **Boilerplate Theme**, welches auf einem Framework basiert auch eine große Anzahl an Überschreibungen auf uns zu kommen, erst recht wenn es um so komplexe Systeme wie [Magento](http://magento.com/) und um ein Framework wie [Bootstrap](http://getbootstrap.com/) geht.  
 Ein wenig besser wird es, wenn wir statt dem normalen **Bootstrap CSS** zu [**less**](http://lesscss.org/) oder [**SASS**](http://sass-lang.com/) greifen aber um eine wirklich saubere Basis zu bekommen empfiehlt es sich im ersten Schritt auf weitestgehend alles Vorhandene zu verzichten und **nur das Magento HTML als Basis** zu sehen.
 
 Ja es ist viel Arbeit doch es zahlt sich aus, zumindest Gedanklich, dieses Experiment zu machen. Durch einige wirklich hilfreiche Funktionen von Bootstrap ist es nämlich einfacher als man denkt.
