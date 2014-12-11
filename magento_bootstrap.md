@@ -1,6 +1,6 @@
 **Magento Frontend mit Bootstrap SCSS**
 ======================
-In diesem Artikel schauen wir gemeinsam, wie ein **Magento Theme** auf **Bootstrap** aufgebaut werden kann und warum es gar nicht so kompliziert ist wie vermutet. Ziel ist es herauszufinden, wie **Bootstrap** mit möglich wenig Klassen-Überschreibungen, einfach und effektiv eingesetzt werden kann.
+In diesem Artikel schauen wir gemeinsam, wie ein **Magento Theme** auf **Bootstrap** aufgebaut werden kann und warum es gar nicht so kompliziert ist wie vermutet. Helfen werden uns dabei **SCSS**, zum erstellen der Stylesheets und **Gulp** zum Kompilieren der SCSS and Bootstrap Dateien. Ziel ist es herauszufinden wie **Bootstrap**, mit möglich wenig Klassen-Überschreibungen, einfach und effektiv eingesetzt werden kann.
 
 #### Warum?
 
