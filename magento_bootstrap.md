@@ -542,4 +542,4 @@ Das Komplette Theme zu diesem Artikel könnt ihr euch in meinem [Git-Repository 
 
 Autor
 ----------------------
-Tobias Hartmann ([@ToH_82](https://twitter.com/ToH_82)) lebt in der Nähe von Frankfurt am Main und arbeitet seit 2014 bei [Sitewards](http://www.sitewards.com/) als Frontend-Entwickler für Magento Projekte. Zuvor arbeitete er bei Kreativ-Agenturen, sowohl als Staatl. geprüfter Gestalter wie auch als Frontend-Entwickler.
+Tobias Hartmann ([@ToH_82](https://twitter.com/ToH_82)) lebt in der Nähe von Frankfurt am Main und arbeitet seit 2014 bei [Sitewards](http://www.sitewards.com/) als Frontend-Entwickler für Magento Projekte. Zuvor arbeitete er sowohl Gestalter wie auch als Frontend-Entwickler.
