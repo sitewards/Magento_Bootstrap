@@ -7,7 +7,7 @@ In diesem Artikel schauen wir gemeinsam, wie ein **Magento Theme** auf **Bootstr
 **Weil** mit jedem **Boilerplate Theme**, welches auf einem Framework basiert auch eine große Anzahl an Überschreibungen auf uns zu kommt, erst recht wenn es um so komplexe Systeme wie [Magento](http://magento.com/) und um ein Framework wie [Bootstrap](http://getbootstrap.com/) geht.  
 Ein wenig besser wird es, wenn wir statt dem normalen **Bootstrap CSS** zu [**less**](http://lesscss.org/) oder [**SASS**](http://sass-lang.com/) greifen, aber um eine wirklich saubere Basis zu bekommen, empfiehlt es sich im ersten Schritt auf weitestgehend alles Vorhandene zu verzichten und **nur das Magento HTML als Basis** zu sehen.
 
-Ja es ist viel Arbeit doch es zahlt sich aus, zumindest Gedanklich, dieses Experiment zu machen. Durch einige wirklich hilfreiche Funktionen von Bootstrap ist es nämlich einfacher als man denkt.
+Ja es ist viel Arbeit doch es zahlt sich aus, zumindest gedanklich, dieses Experiment zu machen. Durch einige wirklich hilfreiche Funktionen von Bootstrap ist es nämlich einfacher als man denkt.
 
 Da ich keineswegs von Boilerplates abraten will, möchte ich an dieser Stelle die Webcomm [HTML5 Magento Bootstrap Boilerplate](https://github.com/webcomm/magento-boilerplate) hervorheben, mit der ich gute Erfahrung sammeln konnte. Neben einer gelungenen Integration finden wir hier sehr gute CSS Klassen-Mappings zwischen Magento und Bootstrap.
 
@@ -93,7 +93,7 @@ app/design/frontend/bootstrap/default
     </default>
 </layout>
 ```
-Weiterhin haben wir mit Hilfe der neuen Fallback-Konfiguration in der Datei `app/design/frontend/bootstrap/default/etc/theme.xml` das Theme auf `default/default` aufgebaut. Der Grund dafür ist nur, damit wir im Frontend keine Broken-Images sehen und das RWD-Theme leider noch nicht ausgereift ist. Generell ist es natürlich möglich, das neue Theme auch auf dem RWD-Theme aufzusetzen. In diesem Fall sollte man nur beachten, dass wir schon den `HTML5` Doctype und das Meta-Tag für `viewport` im `head` haben aber dafür noch weitere CSS-Dateien entfernt werden müssen. Weiterhin fehlt beim RWD-Theme noch der Meta-Tag `<meta http-equiv="X-UA-Compatible" content="IE=edge">` um dem IE beizubringen was Sache ist.
+Weiterhin haben wir mit Hilfe der neuen Fallback-Konfiguration in der Datei `app/design/frontend/bootstrap/default/etc/theme.xml` das Theme auf `default/default` aufgebaut. Der Grund dafür ist nur, damit wir im Frontend keine Broken-Images sehen und das RWD-Theme, Magentos eigene Antwort auf Responsive Design, leider noch nicht ausgereift ist. Generell ist es natürlich möglich, das neue Theme auch auf dem RWD-Theme aufzusetzen. In diesem Fall sollte man nur beachten, dass wir schon den `HTML5` Doctype und das Meta-Tag für `viewport` im `head` haben aber dafür noch weitere CSS-Dateien entfernt werden müssen. Weiterhin fehlt beim RWD-Theme noch der Meta-Tag `<meta http-equiv="X-UA-Compatible" content="IE=edge">` um dem IE beizubringen was Sache ist.
 
 ### 3. Kompilierung der Bootstrap SCSS- und JS-Dateien
 Um die Bootstrap Komponenten nun vom Assets-Ordner zu JS und CSS Dateien zu Kompilieren nutzen wir [Gulp](http://gulpjs.com/) und einfache Gulp-Tasks. Das **Gulp-File**, die Konfigurations-Datei für Tasks, legen wir für unser Beispiel ebenfalls im Theme-Ordner ab, genauso wie die [NPM](https://www.npmjs.org/) **Package-Datei** zum Installieren der Gulp-Module.
@@ -102,7 +102,7 @@ skin/frontend/bootstrap/default
     |- gulpfile.js
     |- package.json
 ```
-Wer sich bisher nicht mit diesem **Workflow** vertraut gemacht hat, sollte einen der vielen guten Artikel dazu lesen wie zum Beispiel ["Building With Gulp"](http://www.smashingmagazine.com/2014/06/11/building-with-gulp/) auf [smashingmagazine.com](http://www.smashingmagazine.com/). Im groben ist die Installation, zumindest unter Windows, sehr einfach:
+Wer sich bisher nicht mit diesem **Workflow** vertraut gemacht hat, sollte einen der vielen guten Artikel dazu lesen wie zum Beispiel ["Building With Gulp"](http://www.smashingmagazine.com/2014/06/11/building-with-gulp/) auf [smashingmagazine.com](http://www.smashingmagazine.com/). Im Groben ist die Installation, zumindest unter Windows, sehr einfach:
 
 1. [Node](http://nodejs.org/) installieren
 2. Da NPM zusammen mit Node installiert wurde, nun einfach die Konsole öffnen und mit der Eingabe von `npm --version` schauen ob es korrekt installiert wurde.
@@ -185,9 +185,9 @@ Die Package Datei benötigen wir um alle **Gulp-Module** zu installieren, d.h. e
 ### 4. Aufsetzen der Style SCSS
 Nun kommen wir zur Style-Datei, sozusagen dem **CSS-Herzstück** unseres Themes.
 
-Um herauszufinden, welche Bootstrap Standard Dateien wir benötigen, öffnen wir im Ordner `assets` die Datei `_bootstrap.scss`. Wir könnten diese Datei auch direkt in unserer `styles.scss` mit `@import` einbinden, dabei würden wir aber sämtliche Komponenten laden, was in den meisten Fällen unnötig ist. 
+Um herauszufinden, welche Bootstrap Standard-Dateien wir benötigen, öffnen wir im Ordner `assets` die Datei `_bootstrap.scss`. Wir könnten diese Datei auch direkt in unserer `styles.scss` mit `@import` einbinden, dabei würden wir aber sämtliche Komponenten laden, was in den meisten Fällen unnötig ist. 
 
-In der Bootstrap Datei befinden sich glücklicher weise Kommentare, welche uns helfen zu identifizieren was wir benötigen und was nicht. Alles was mit **Components** beschrieben ist, ist optional, alles andere wird dringend benötigt, easy.
+In der Bootstrap-Datei befinden sich glücklicher weise Kommentare, welche uns helfen zu identifizieren was wir benötigen und was nicht. Alles was mit **Components** beschrieben ist, ist optional, alles andere wird dringend benötigt, easy.
 ```scss
 // Core variables and mixins
 @import "bootstrap/assets/stylesheets/bootstrap/variables";
@@ -307,7 +307,7 @@ $brand-info:            #5bc0de;
 $brand-warning:         #f0ad4e;
 $brand-danger:          #d9534f;
 ```
-Ihr seht also, wir können anhand von wenigen **Bootstrap Variablen** massiv modifizieren und dies sollten wir auch nutzen. Wenn ihr über die `_variables.scss` geht fällt euch auch bestimmt `!default` ins Auge. Dies hat keineswegs irgendetwas mit dem aus CSS bekannten `!important` zu tun, vielmehr bezeichnet es das der aktuelle Wert dieser Variable "Default" ist und überschrieben werden kann. Wenn ein Wert in einer Variable gesetzt wurde, wird er bei der Benutzung von "Default" nicht erneut gesetzt (Überschrieben):
+Ihr seht also, wir können anhand von wenigen **Bootstrap-Variablen** massiv modifizieren und dies sollten wir auch nutzen. Wenn ihr über die `_variables.scss` geht fällt euch auch bestimmt `!default` ins Auge. Dies hat keineswegs irgendetwas mit dem aus CSS bekannten `!important` zu tun, vielmehr bezeichnet es das der aktuelle Wert dieser Variable "Default" ist und überschrieben werden kann. Wenn ein Wert in einer Variable gesetzt wurde, wird er bei der Benutzung von "Default" nicht erneut gesetzt (Überschrieben):
 ```scss
 $content: "First content";
 $content: "Second content?" !default;
@@ -395,7 +395,7 @@ Zur Erklärung, die **Mixins**, die uns hier das Leben erleichtern, sind folgend
 Sicherlich kann man den SCSS-Code auch noch weiter zusammenfassen, ich habe aber wegen der Übersichtlichkeit darauf verzichtet. 
 
 **Warum benutze ich nicht überall **`@extend`**?** 
-Gute Frage, ich habe erstens extra hierauf verzichtet damit ich euch zeigen kann, wie flexibel Bootstrap ist und zweitens war `@extend` bis zu der Version 1.2.0 von "gulp-sass" nicht in der Lage z.B. Media-Queries, welche in dem zu Erweiternden Element gesetzt wurden, zu berücksichtigen.
+Gute Frage, ich habe erstens extra hierauf verzichtet damit ich euch zeigen kann, wie flexibel Bootstrap ist und zweitens war `@extend` bis zu der Version 1.2.0 von "gulp-sass" nicht in der Lage z.B. Media-Queries, welche in dem zu erweiternden Element gesetzt wurden, zu berücksichtigen.
 
 Flexibel wird Bootstrap hier weil man diesen Mixins sowohl die Spaltenanzahl als auch die Gutter-Breite mitgeben kann, wir sind also in der Lage, das Grid in Abhängigkeit eines Scopes anzupassen. Wichtig ist zudem zu erwähnen, dass man **Bootstrap-Grids verschachteln** kann, dabei müssen diese allerding nochmals von einer `.row` umgeben werden.
  
@@ -538,7 +538,7 @@ Weitere wichtige **Mixins** könnten z.B. die folgenden sein:
 
 Ein Blick in die Datei `_utilities.scss` erleichtert einem auch oftmals das Leben, wenn man anfängt Kleinigkeiten als neue Styles zu definieren.
 
-Das Komplette Theme zu diesem Artikel könnt ihr euch in meinem [Git-Repository "Magento Bootstrap"](https://github.com/toh82/Magento_Bootstrap_Article) herunterladen. 
+Das Komplette Theme zu diesem Artikel könnt ihr euch in meinem [Git-Repository "Magento Bootstrap"](https://github.com/sitewards/Magento_Bootstrap_Article) herunterladen. 
 
 Autor
 ----------------------
